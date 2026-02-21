@@ -8,7 +8,6 @@ const apiUrl = () => process.env.NEXT_PUBLIC_API_URL ?? '';
 
 export default function ForumThreadPage() {
   const params = useParams();
-  const router = useRouter();
   const id = params?.id as string;
   const [thread, setThread] = useState<{
     id: string;
