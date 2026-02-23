@@ -4,6 +4,18 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FORUM_TOKEN_KEY } from '@/lib/forumAuth';
+import { supabase } from '@/lib/supabase';
+
+function parseHashParams(hash: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (!hash || hash.charAt(0) !== '#') return out;
+  const q = hash.slice(1).split('&');
+  for (const pair of q) {
+    const [k, v] = pair.split('=');
+    if (k && v) out[k] = decodeURIComponent(v);
+  }
+  return out;
+}
 
 export default function VerifyForumPage() {
   const router = useRouter();
@@ -11,37 +23,83 @@ export default function VerifyForumPage() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    const params = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
-    const token = params.get('token');
-    if (!token) {
+    if (typeof window === 'undefined') return;
+
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
+    const params = new URLSearchParams(window.location.search);
+    const legacyToken = params.get('token');
+    const tokenHash = params.get('token_hash');
+    const hashParams = parseHashParams(window.location.hash);
+    const accessToken = hashParams.access_token;
+
+    const finishSuccess = (data: { token: string }) => {
+      try {
+        localStorage.setItem(FORUM_TOKEN_KEY, data.token);
+      } catch {}
+      setStatus('ok');
+      setMessage('You can now post in the forum.');
+      setTimeout(() => router.push('/forum'), 2000);
+    };
+
+    const finishError = (msg: string) => {
       setStatus('error');
-      setMessage('Missing verification link.');
+      setMessage(msg);
+    };
+
+    const sendAccessTokenToBackend = (token: string) => {
+      fetch(`${apiUrl}/api/forum/verify-supabase`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.verified && data.token) finishSuccess(data);
+          else finishError(data.message || 'Verification failed.');
+        })
+        .catch(() => finishError('Something went wrong. Please try again.'));
+    };
+
+    if (accessToken) {
+      sendAccessTokenToBackend(accessToken);
       return;
     }
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
-    fetch(`${apiUrl}/api/forum/verify`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token }),
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.verified && data.token) {
-          try {
-            localStorage.setItem(FORUM_TOKEN_KEY, data.token);
-          } catch {}
-          setStatus('ok');
-          setMessage('You can now post in the forum.');
-          setTimeout(() => router.push('/forum'), 2000);
-        } else {
-          setStatus('error');
-          setMessage(data.message || 'Verification failed.');
-        }
+
+    if (tokenHash && supabase) {
+      supabase.auth
+        .verifyOtp({ token_hash: tokenHash, type: 'email' })
+        .then(({ data, error }) => {
+          if (error) {
+            finishError(error.message || 'Verification failed.');
+            return;
+          }
+          const token = data.session?.access_token;
+          if (token) sendAccessTokenToBackend(token);
+          else finishError('Verification failed.');
+        })
+        .catch(() => finishError('Something went wrong. Please try again.'));
+      return;
+    }
+
+    if (legacyToken) {
+      fetch(`${apiUrl}/api/forum/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: legacyToken }),
       })
-      .catch(() => {
-        setStatus('error');
-        setMessage('Something went wrong. Please try again.');
-      });
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.verified && data.token) finishSuccess(data);
+          else finishError(data.message || 'Verification failed.');
+        })
+        .catch(() => finishError('Something went wrong. Please try again.'));
+      return;
+    }
+
+    setStatus('error');
+    setMessage('Missing verification link.');
   }, [router]);
 
   return (

@@ -24,26 +24,28 @@ export function ShareButtons({ url, title, text }: Props) {
   ];
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <span className="text-sm text-heritage-charcoal">Share:</span>
-      {links.map((link) => (
-        <a
-          key={link.name}
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-heritage-navy hover:underline text-sm"
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="text-sm font-medium text-heritage-charcoal/80">Share:</span>
+      <div className="flex flex-wrap items-center gap-2">
+        {links.map((link) => (
+          <a
+            key={link.name}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center rounded-lg bg-white border border-heritage-charcoal/15 px-3 py-2 text-sm font-medium text-heritage-navy hover:bg-heritage-navy/5 hover:border-heritage-gold/30 transition-colors"
+          >
+            {link.name}
+          </a>
+        ))}
+        <button
+          type="button"
+          onClick={copyLink}
+          className="inline-flex items-center rounded-lg bg-white border border-heritage-charcoal/15 px-3 py-2 text-sm font-medium text-heritage-navy hover:bg-heritage-navy/5 hover:border-heritage-gold/30 transition-colors"
         >
-          {link.name}
-        </a>
-      ))}
-      <button
-        type="button"
-        onClick={copyLink}
-        className="text-heritage-navy hover:underline text-sm"
-      >
-        Copy link
-      </button>
+          Copy link
+        </button>
+      </div>
     </div>
   );
 }

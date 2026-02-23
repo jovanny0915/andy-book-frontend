@@ -4,11 +4,11 @@ import { NavHeader } from '@/components/NavHeader';
 import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Victoriacross.ca – Remembering Waterman, Hickey & Vokes',
-  description: 'Historical context and petitions for the review of Victoria Cross cases. Support the project and join the discussion.',
+  title: 'The Chaplain\'s Diary – Victoriacross.ca',
+  description: 'A historical investigation into courage, command, and Canada\'s unawarded Victoria Cross. Sign the petitions for Waterman and Hickey.',
   openGraph: {
-    title: 'Victoriacross.ca – Remembering Waterman, Hickey & Vokes',
-    description: 'Historical context and petitions for the review of Victoria Cross cases.',
+    title: 'The Chaplain\'s Diary – Victoriacross.ca',
+    description: 'A historical investigation into courage, command, and Canada\'s unawarded Victoria Cross.',
     type: 'website',
   },
 };

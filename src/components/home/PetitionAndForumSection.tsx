@@ -19,7 +19,9 @@ export function PetitionAndForumSection() {
     }).catch(() => {});
   }, []);
 
-  const totalSignatures = (watermanCount ?? 0) + (hickeyCount ?? 0);
+  /** Hickey count includes 15k from a prior petition. */
+  const HICKEY_PRIOR = 15000;
+  const totalSignatures = (watermanCount ?? 0) + (hickeyCount ?? 0) + HICKEY_PRIOR;
   const displayCount = watermanCount !== null ? totalSignatures : null;
 
   return (

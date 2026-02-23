@@ -1,12 +1,14 @@
-import { HeroWithPortraits } from '@/components/home/HeroWithPortraits';
-import { HistoricalCards } from '@/components/home/HistoricalCards';
-import { PetitionAndForumSection } from '@/components/home/PetitionAndForumSection';
+import { HeroSection } from '@/components/home/HeroSection';
+import { ShortIntroduction } from '@/components/home/ShortIntroduction';
+import { FocusTiles } from '@/components/home/FocusTiles';
+import { LivePetitionCounter } from '@/components/home/LivePetitionCounter';
+import { BuyMeACoffeeSection } from '@/components/home/BuyMeACoffeeSection';
 import { ShareWidget } from '@/components/home/ShareWidget';
 
 export default function HomePage() {
   return (
     <div className="relative min-h-screen">
-      {/* Full-page map background – no overlay so the map stays visible */}
+      {/* Full-page map background */}
       <div
         className="fixed inset-0 -z-10"
         style={{
@@ -19,11 +21,11 @@ export default function HomePage() {
         aria-hidden
       />
       <div className="relative">
-        <HeroWithPortraits />
-        <div className="min-h-screen">
-          <HistoricalCards />
-          <PetitionAndForumSection />
-        </div>
+        <HeroSection />
+        <ShortIntroduction />
+        <FocusTiles />
+        <LivePetitionCounter />
+        <BuyMeACoffeeSection />
       </div>
       <ShareWidget floating />
     </div>

@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { ForumSection } from '@/components/ForumSection';
 import { ForumSidebar } from '@/components/ForumSidebar';
 import { ShareWidget } from '@/components/home/ShareWidget';
@@ -23,14 +24,18 @@ export default function ForumPage() {
         aria-hidden
       />
       <div className="relative max-w-6xl mx-auto px-4 py-10 md:py-14">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
-          {/* Main content */}
-          <main className="flex-1 min-w-0">
-            <ForumSection />
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          {/* Main content – first on mobile for accessibility */}
+          <main className="flex-1 min-w-0 order-2 lg:order-2">
+            <Suspense fallback={<div className="rounded-2xl border border-heritage-gold/20 bg-white/80 h-48 animate-pulse" />}>
+              <ForumSection />
+            </Suspense>
           </main>
-          {/* Left sidebar on large screens (order after main on mobile so main content first) */}
-          <div className="lg:order-first">
-            <ForumSidebar />
+          {/* Sidebar: categories + support – first on desktop */}
+          <div className="order-1 lg:order-1 lg:w-72 flex-shrink-0">
+            <Suspense fallback={<div className="rounded-2xl border border-heritage-gold/20 bg-white/80 h-64 animate-pulse" />}>
+              <ForumSidebar />
+            </Suspense>
           </div>
         </div>
       </div>

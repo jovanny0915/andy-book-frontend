@@ -4,15 +4,15 @@ import { ShareWidget } from '@/components/home/ShareWidget';
 
 export const metadata = {
   title: 'The Chaplain\'s Diary – Victoriacross.ca',
-  description: 'Purchase the book The Chaplain\'s Diary.',
+  description: 'Purchase the book The Chaplain\'s Diary. Price, shipping, and order confirmation by email.',
 };
 
 export default function BookPage() {
   return (
     <div className="relative min-h-screen">
-      {/* Full-page map background – same as forum page */}
+      {/* Background */}
       <div
-        className="fixed inset-0 -z-10 blur-sm"
+        className="fixed inset-0 -z-10"
         style={{
           backgroundImage: 'url(/map-background.png)',
           backgroundSize: 'cover',
@@ -22,11 +22,24 @@ export default function BookPage() {
         }}
         aria-hidden
       />
-      <div className="relative max-w-5xl mx-auto px-4 py-10">
-        <h1 className="font-serif text-3xl md:text-4xl text-heritage-navy text-center border-b border-heritage-navy/30 pb-2 mb-10">
-          The Chaplain&apos;s Diary
-        </h1>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-heritage-stone/40 via-transparent to-heritage-stone/60" aria-hidden />
+
+      <div className="relative max-w-4xl mx-auto px-4 py-10 md:py-14">
+        {/* Page title */}
+        <header className="text-center mb-10 md:mb-12">
+          <p className="text-sm font-medium text-heritage-gold uppercase tracking-widest mb-2">
+            Product
+          </p>
+          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-heritage-navy font-bold tracking-tight">
+            The Chaplain&apos;s Diary
+          </h1>
+          <div className="mt-4 h-1 w-20 bg-heritage-gold/80 rounded-full mx-auto" aria-hidden />
+        </header>
+
+        {/* Product: Price, Shipping, Confirmation email */}
         <BookPurchase />
+
+        {/* Reviews */}
         <BookReviews />
       </div>
       <ShareWidget floating />

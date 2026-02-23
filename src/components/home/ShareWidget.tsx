@@ -11,12 +11,14 @@ type ShareWidgetProps = { floating?: boolean };
 export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
   const [totalCount, setTotalCount] = useState<number | null>(null);
 
+  /** Hickey count includes 15k from a prior petition. */
+  const HICKEY_PRIOR = 15000;
   useEffect(() => {
     Promise.all([
       fetch(`${apiUrl()}/api/petitions/waterman/count`).then((r) => r.json()),
       fetch(`${apiUrl()}/api/petitions/hickey/count`).then((r) => r.json()),
     ])
-      .then(([a, b]) => setTotalCount((a.count ?? 0) + (b.count ?? 0)))
+      .then(([a, b]) => setTotalCount((a.count ?? 0) + (b.count ?? 0) + HICKEY_PRIOR))
       .catch(() => {});
   }, []);
 
