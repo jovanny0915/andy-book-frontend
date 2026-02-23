@@ -1,4 +1,6 @@
 import { SupportContent } from '@/components/support/SupportContent';
+import { ShareWidget } from '@/components/home/ShareWidget';
+import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
 
 export const metadata = {
   title: 'Support – Victoriacross.ca',
@@ -21,6 +23,8 @@ export default function SupportPage() {
         aria-hidden
       />
       <SupportContent />
+      <BuyMeACoffeeWidget floating />
+      <ShareWidget floating />
     </div>
   );
 }

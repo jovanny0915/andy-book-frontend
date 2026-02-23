@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { ForumSection } from '@/components/ForumSection';
 import { ForumSidebar } from '@/components/ForumSidebar';
 import { ShareWidget } from '@/components/home/ShareWidget';
+import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
 
 export const metadata = {
   title: 'Forum – Victoriacross.ca',
@@ -39,6 +40,7 @@ export default function ForumPage() {
           </div>
         </div>
       </div>
+      <BuyMeACoffeeWidget floating />
       <ShareWidget floating />
     </div>
   );

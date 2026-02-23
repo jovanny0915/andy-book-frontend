@@ -22,7 +22,7 @@ function PetitionPortrait({
       alt={alt}
       fill
       className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-300"
-      sizes="(max-width: 640px) 100vw, 128px"
+      sizes="(max-width: 640px) 100vw, 208px"
       onError={() => {
         if (fallbackSrc && currentSrc !== fallbackSrc) setCurrentSrc(fallbackSrc);
       }}
@@ -137,7 +137,6 @@ export function PetitionSection() {
     setCounts((prev) => ({ ...prev, [petitionId]: count }));
   }
 
-  const totalVotes = PETITION_LIST.reduce((sum, p) => sum + displayCount(p.id, counts[p.id]), 0);
   const selectedPetition = selectedId ? PETITION_LIST.find((p) => p.id === selectedId) : null;
 
   return (
@@ -152,29 +151,9 @@ export function PetitionSection() {
           <p className="font-medium">This verification link is invalid or has already been used.</p>
         </div>
       )}
-      {/* Live totals bar */}
-      <div className="rounded-2xl bg-white/90 backdrop-blur-sm border border-heritage-gold/20 shadow-lg shadow-heritage-navy/5 px-6 py-4 flex flex-wrap items-center justify-center gap-6 md:gap-10">
-        <div className="flex items-baseline gap-2">
-          <span className="text-sm font-medium text-heritage-charcoal/70 uppercase tracking-wider">Total votes</span>
-          <span className="text-2xl md:text-3xl font-serif font-bold text-heritage-navy tabular-nums" data-counter>
-            {totalVotes}
-          </span>
-        </div>
-        {PETITION_LIST.map((p) => (
-          <div key={p.id} className="flex items-baseline gap-2 flex-wrap">
-            <span className="text-sm text-heritage-charcoal/60">{p.id === 'waterman-vc' ? 'Waterman VC' : p.id === 'waterman-dso' ? 'Waterman DSO' : p.shortTitle}:</span>
-            <span className="text-xl font-semibold text-heritage-navy tabular-nums" data-counter>
-              {counts[p.id] !== undefined ? displayCount(p.id, counts[p.id]) : '—'}
-            </span>
-            {p.id === 'hickey' && (
-              <span className="text-sm text-heritage-charcoal/60">(15k from a prior petition)</span>
-            )}
-          </div>
-        ))}
-      </div>
 
       {/* Section cards: Waterman (VC + DSO subsections) and Hickey — section is clickable, defaults to first subsection */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {SECTIONS.map((section) => {
           const firstSubId = section.subsections[0].id;
           const isSectionSelected = section.subsections.some((s) => s.id === selectedId);
@@ -196,8 +175,8 @@ export function PetitionSection() {
                   : 'border-heritage-charcoal/10 bg-white/95 hover:border-heritage-gold/30 hover:shadow-md'
               }`}
             >
-              <div className="relative flex flex-col sm:flex-row min-h-[120px]">
-                <div className="relative w-full sm:w-28 flex-shrink-0 aspect-[4/3] sm:aspect-square">
+              <div className="relative flex flex-col sm:flex-row min-h-[240px] md:min-h-[280px]">
+                <div className="relative w-full sm:w-44 md:w-52 flex-shrink-0 aspect-[4/3] sm:aspect-square">
                   <PetitionPortrait
                     src={section.portraitSrc}
                     alt={section.portraitAlt}
@@ -205,11 +184,11 @@ export function PetitionSection() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent sm:from-transparent sm:via-transparent sm:to-transparent group-hover:sm:from-transparent" />
                 </div>
-                <div className="flex-1 p-4 flex flex-col justify-center min-w-0">
-                  <h2 className="font-serif text-lg font-semibold text-heritage-navy">
+                <div className="flex-1 p-6 md:p-8 flex flex-col justify-center min-w-0">
+                  <h2 className="font-serif text-2xl md:text-3xl font-semibold text-heritage-navy">
                     {section.sectionTitle}
                   </h2>
-                  <p className="text-sm text-heritage-charcoal/70 mt-0.5">
+                  <p className="text-base text-heritage-charcoal/70 mt-1">
                     {section.subsections.length > 1
                       ? 'Select a petition to vote:'
                       : 'Petition to receive the Victoria Cross'}

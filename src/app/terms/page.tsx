@@ -1,3 +1,6 @@
+import { ShareWidget } from '@/components/home/ShareWidget';
+import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
+
 export const metadata = {
   title: 'Terms – Victoriacross.ca',
   description: 'Terms of use for Victoriacross.ca and The Chaplain\'s Diary project.',
@@ -33,6 +36,8 @@ export default function TermsPage() {
           </p>
         </div>
       </div>
+      <BuyMeACoffeeWidget floating />
+      <ShareWidget floating />
     </div>
   );
 }

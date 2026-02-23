@@ -10,6 +10,7 @@ type ShareWidgetProps = { floating?: boolean };
 
 export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
   const [totalCount, setTotalCount] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(true);
 
   /** Hickey count includes 15k from a prior petition. */
   const HICKEY_PRIOR = 15000;
@@ -39,6 +40,27 @@ export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
     { name: 'Email', href: `mailto:?subject=${encoded(title)}&body=${encoded(text + ' ' + url)}`, label: '✉' },
   ];
 
+  const headerLabel = floating ? 'Share This Page!' : 'Share this page';
+
+  if (floating && !expanded) {
+    return (
+      <aside className="fixed bottom-6 right-6 z-20">
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="rounded-xl border-2 border-heritage-gold/30 bg-white/95 px-4 py-3 shadow-lg shadow-heritage-navy/5 flex items-center gap-2 font-serif text-heritage-navy hover:bg-heritage-gold/5 hover:border-heritage-gold/50 transition-colors"
+          aria-expanded="false"
+          aria-label="Expand share panel"
+        >
+          <span>{headerLabel}</span>
+          <svg className="w-5 h-5 rotate-[-90deg]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      </aside>
+    );
+  }
+
   return (
     <aside
       className={
@@ -48,9 +70,24 @@ export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
       }
     >
       <div className="rounded-xl border-2 border-heritage-gold/30 bg-white/95 p-6 shadow-lg shadow-heritage-navy/5">
-        <h2 className="font-serif text-xl text-heritage-navy border-b border-heritage-gold/40 pb-2 mb-4">
-          {floating ? 'Share This Page!' : 'Share this page'}
-        </h2>
+        <div className="flex items-center justify-between gap-2 border-b border-heritage-gold/40 pb-2 mb-4">
+          <h2 className="font-serif text-xl text-heritage-navy">
+            {headerLabel}
+          </h2>
+          {floating && (
+            <button
+              type="button"
+              onClick={() => setExpanded(false)}
+              className="p-1.5 rounded-lg text-heritage-charcoal/70 hover:bg-heritage-gold/10 hover:text-heritage-navy transition-colors"
+              aria-label="Collapse share panel"
+              aria-expanded="true"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          )}
+        </div>
         {totalCount !== null && (
           <p className="text-heritage-charcoal font-medium mb-4">
             You made it <span className="text-heritage-gold font-bold">{totalCount.toLocaleString()}</span> Signatures!

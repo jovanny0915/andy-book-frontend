@@ -1,6 +1,7 @@
 import { BookPurchase } from '@/components/BookPurchase';
 import { BookReviews } from '@/components/book/BookReviews';
 import { ShareWidget } from '@/components/home/ShareWidget';
+import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
 import { BookPassage } from '@/content/bookPassage';
 
 export const metadata = {
@@ -55,6 +56,7 @@ export default function BookPage() {
         {/* Reviews */}
         <BookReviews />
       </div>
+      <BuyMeACoffeeWidget floating />
       <ShareWidget floating />
     </div>
   );

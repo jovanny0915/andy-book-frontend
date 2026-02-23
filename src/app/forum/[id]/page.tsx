@@ -4,6 +4,8 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getForumToken } from '@/lib/forumAuth';
+import { ShareWidget } from '@/components/home/ShareWidget';
+import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
 
 const apiUrl = () => process.env.NEXT_PUBLIC_API_URL ?? '';
 
@@ -180,6 +182,8 @@ export default function ForumThreadPage() {
           </div>
         )}
       </div>
+      <BuyMeACoffeeWidget floating />
+      <ShareWidget floating />
     </div>
   );
 }

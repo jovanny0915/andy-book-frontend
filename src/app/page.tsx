@@ -2,7 +2,7 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { ShortIntroduction } from '@/components/home/ShortIntroduction';
 import { FocusTiles } from '@/components/home/FocusTiles';
 import { LivePetitionCounter } from '@/components/home/LivePetitionCounter';
-import { BuyMeACoffeeSection } from '@/components/home/BuyMeACoffeeSection';
+import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
 import { ShareWidget } from '@/components/home/ShareWidget';
 
 export default function HomePage() {
@@ -25,8 +25,8 @@ export default function HomePage() {
         <ShortIntroduction />
         <FocusTiles />
         <LivePetitionCounter />
-        <BuyMeACoffeeSection />
       </div>
+      <BuyMeACoffeeWidget floating />
       <ShareWidget floating />
     </div>
   );

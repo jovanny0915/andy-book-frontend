@@ -1,4 +1,6 @@
 import { PetitionSection } from '@/components/PetitionSection';
+import { ShareWidget } from '@/components/home/ShareWidget';
+import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
 
 export const metadata = {
   title: 'Vote & Petitions – Victoriacross.ca',
@@ -24,20 +26,18 @@ export default function PetitionsPage() {
       />
 
       <div className="relative">
-        {/* Hero block */}
-        <header className="text-center px-4 pt-12 pb-8 md:pt-16 md:pb-12">
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-heritage-navy tracking-tight">
+        <header className="text-center px-4 pt-8 pb-4 md:pt-10 md:pb-6">
+          <h1 className="font-serif text-2xl md:text-3xl text-heritage-navy tracking-tight">
             Vote & Petitions
           </h1>
-          <p className="mt-3 md:mt-4 text-heritage-charcoal/80 text-lg md:text-xl max-w-xl mx-auto leading-relaxed">
-            Your verified vote supports petitions for Waterman (VC and DSO) and Hickey (VC). One vote per email per petition—you can vote twice for Waterman. Counted after verification.
-          </p>
         </header>
 
-        <div className="max-w-4xl mx-auto px-4 pb-16 md:pb-20">
+        <div className="max-w-6xl mx-auto px-4 pb-16 md:pb-20">
           <PetitionSection />
         </div>
       </div>
+      <BuyMeACoffeeWidget floating />
+      <ShareWidget floating />
     </div>
   );
 }

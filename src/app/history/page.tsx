@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { SectionHeader } from '@/components/history/SectionHeader';
 import { Timeline } from '@/components/history/Timeline';
+import { ShareWidget } from '@/components/home/ShareWidget';
+import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
 
 export const metadata = {
   title: 'History – The Chaplain\'s Diary | Victoriacross.ca',
@@ -44,22 +46,23 @@ export default function HistoryPage() {
           subtitle="Leadership, valour, and the case for recognition."
           image={{ src: '/hero-waterman.png', alt: 'Colonel Ronald Waterman' }}
           bio={{
-            heading: 'Short biography',
+            heading: 'Biography',
             content: (
-              <p>
-                Ronald Waterman began his service long before the first shot was fired in Italy. A professional soldier who rose from the ranks, he led men through Sicily, Ortona, and into the grinding advance toward the Gothic Line. He was not ornamental. He was direct, demanding, and present where the fighting was worst.
-              </p>
+              <>
+                <p>
+                  Ronald Waterman began his service long before the first shot was fired in Italy. A professional soldier who rose from the ranks, he led men through Sicily, Ortona, and into the grinding advance toward the Gothic Line. He was not ornamental. He was direct, demanding, and present where the fighting was worst.
+                </p>
+                <p className="mt-4">
+                  At the Foglia River in September 1944, Waterman rallied exhausted troops under intense machine gun and mortar fire. With communications broken and positions collapsing, he moved forward repeatedly under fire to reorganize his companies, drag wounded men to cover, and restore order where retreat seemed imminent. His leadership prevented a total collapse of the line.
+                </p>
+                <p className="mt-4">
+                  A recommendation was written for the highest award for gallantry. It did not proceed. Instead, the record settled for lesser recognition. Waterman would later be relieved for exhaustion. Official language called it necessary. Those who served under him called it the cost of carrying too much for too long.
+                </p>
+              </>
             ),
           }}
         />
         <div className="mt-8 space-y-10">
-          <p className="text-heritage-charcoal leading-relaxed">
-            At the Foglia River in September 1944, Waterman rallied exhausted troops under intense machine gun and mortar fire. With communications broken and positions collapsing, he moved forward repeatedly under fire to reorganize his companies, drag wounded men to cover, and restore order where retreat seemed imminent. His leadership prevented a total collapse of the line.
-          </p>
-          <p className="text-heritage-charcoal leading-relaxed">
-            A recommendation was written for the highest award for gallantry. It did not proceed. Instead, the record settled for lesser recognition. Waterman would later be relieved for exhaustion. Official language called it necessary. Those who served under him called it the cost of carrying too much for too long.
-          </p>
-
           <section>
             <h3 className="font-serif text-lg text-heritage-navy font-semibold mb-2">
               Timeline
@@ -92,22 +95,22 @@ export default function HistoryPage() {
           subtitle="The Gothic Line, action, and recommendation history."
           image={{ src: '/hero-hickey.png', alt: 'Corporal Alphonsus Hickey' }}
           bio={{
-            heading: 'Short biography',
+            heading: 'Biography',
             content: (
-              <p>
-                Corporal Alphonsus Hickey was a steelworker from Cape Breton who served with the Princess Patricia&apos;s Canadian Light Infantry. He was not an officer. He was not decorated with high rank. His act of courage was simple and absolute.
-              </p>
+              <>
+                <p>
+                  Corporal Alphonsus Hickey was a steelworker from Cape Breton who served with the Princess Patricia&apos;s Canadian Light Infantry. He was not an officer. He was not decorated with high rank. His act of courage was simple and absolute.
+                </p>
+                <p className="mt-4">
+                  During a withdrawal under heavy enemy fire near the Gothic Line, Hickey volunteered to remain behind with his Bren gun to cover his battalion&apos;s retreat. From a low stone wall, he fired in deliberate bursts, holding back advancing forces while wounded men crawled to safety. By dawn, his ammunition was spent. He had held the line alone.
+                </p>
+                <p className="mt-4">
+                  His action saved lives. It was recorded briefly. He received a Mention in Despatches. No higher award followed.
+                </p>
+              </>
             ),
           }}
         />
-        <div className="mt-8 space-y-6">
-          <p className="text-heritage-charcoal leading-relaxed">
-            During a withdrawal under heavy enemy fire near the Gothic Line, Hickey volunteered to remain behind with his Bren gun to cover his battalion&apos;s retreat. From a low stone wall, he fired in deliberate bursts, holding back advancing forces while wounded men crawled to safety. By dawn, his ammunition was spent. He had held the line alone.
-          </p>
-          <p className="text-heritage-charcoal leading-relaxed">
-            His action saved lives. It was recorded briefly. He received a Mention in Despatches. No higher award followed.
-          </p>
-        </div>
 
         <div className="mt-14 pt-10 border-t border-heritage-gold/20">
           <Link
@@ -125,7 +128,7 @@ export default function HistoryPage() {
           subtitle="The chaplain whose diary gives the book its name."
           image={{ src: '/hero-vokes.png', alt: 'Padre Laurence Wilmot, MC' }}
           bio={{
-            heading: 'Short biography',
+            heading: 'Biography',
             content: (
               <>
                 <p>
@@ -134,15 +137,13 @@ export default function HistoryPage() {
                 <p className="mt-4">
                   At Ortona and later at the Foglia River, Wilmot moved through shellfire to recover wounded men from exposed ground. For his actions under fire, he was awarded the Military Cross. He rarely spoke of it.
                 </p>
+                <p className="mt-4">
+                  His private diaries record the moral strain of command decisions, the exhaustion of officers, and the courage of ordinary soldiers. Through his words, the battlefield is seen not only in tactics and objectives, but in conscience and consequence. His account forms the moral spine of <em>The Chaplain&apos;s Diary</em>.
+                </p>
               </>
             ),
           }}
         />
-        <div className="mt-8 space-y-6">
-          <p className="text-heritage-charcoal leading-relaxed">
-            His private diaries record the moral strain of command decisions, the exhaustion of officers, and the courage of ordinary soldiers. Through his words, the battlefield is seen not only in tactics and objectives, but in conscience and consequence. His account forms the moral spine of <em>The Chaplain&apos;s Diary</em>.
-          </p>
-        </div>
 
         <div className="mt-14 pt-10 border-t border-heritage-gold/20">
           <Link
@@ -164,13 +165,18 @@ export default function HistoryPage() {
             In 1993, Canada created its own Victoria Cross as part of the Canadian honours system. The design mirrors the original British decoration, but carries the inscription <em>Pro Valore</em>. The standard remains unchanged. It is awarded for the most conspicuous bravery, or some daring or pre-eminent act of valour in the presence of the enemy.
           </p>
           <p className="text-heritage-charcoal leading-relaxed">
-            Since its creation, the Canadian Victoria Cross has never been awarded. Other Commonwealth nations, including Australia and New Zealand, have awarded their modern versions. Britain has reviewed and, in some cases, reassessed earlier conflicts. Canada&apos;s Cross remains uninscribed.
+            Since its creation, the Canadian Victoria Cross has never been awarded.
+          </p>
+          <p className="text-heritage-charcoal leading-relaxed">
+            Other Commonwealth nations, including Australia and New Zealand, have awarded their modern versions. Britain has reviewed and, in some cases, reassessed earlier conflicts. Canada&apos;s Cross remains uninscribed.
           </p>
           <p className="text-heritage-charcoal leading-relaxed">
             <em>The Chaplain&apos;s Diary</em> does not argue that standards should be lowered. It asks whether certain acts, recorded in diaries and operational reports, were seen clearly at the time. It invites readers to examine the historical record and decide whether silence was caution, policy, or something more enduring.
           </p>
         </div>
       </article>
+      <BuyMeACoffeeWidget floating />
+      <ShareWidget floating />
     </div>
   );
 }
