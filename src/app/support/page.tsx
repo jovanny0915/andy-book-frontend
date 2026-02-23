@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { SupportContent } from '@/components/support/SupportContent';
 import { ShareWidget } from '@/components/home/ShareWidget';
 import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
@@ -22,7 +23,9 @@ export default function SupportPage() {
         }}
         aria-hidden
       />
-      <SupportContent />
+      <Suspense fallback={<div className="min-h-[40vh]" />}>
+        <SupportContent />
+      </Suspense>
       <BuyMeACoffeeWidget floating />
       <ShareWidget floating />
     </div>

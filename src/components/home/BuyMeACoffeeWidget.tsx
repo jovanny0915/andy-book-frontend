@@ -2,12 +2,15 @@
 
 import { useState } from 'react';
 
+const apiUrl = () => process.env.NEXT_PUBLIC_API_URL ?? '';
+
 type BuyMeACoffeeWidgetProps = { floating?: boolean };
 
 export function BuyMeACoffeeWidget({ floating = false }: BuyMeACoffeeWidgetProps = {}) {
   const [expanded, setExpanded] = useState(true);
-  const supportUrl = process.env.NEXT_PUBLIC_COFFEE_URL || '/support';
-  const amounts = [5, 10, 20, 50];
+  const [loadingAmount, setLoadingAmount] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const amounts = [5, 10, 15, 20];
 
   const headerLabel = 'Buy Me a Coffee';
 
@@ -60,18 +63,49 @@ export function BuyMeACoffeeWidget({ floating = false }: BuyMeACoffeeWidgetProps
         <p className="text-heritage-charcoal/90 text-sm mb-4">
           Optional one-time support. All donations go toward research and maintaining this site.
         </p>
+        {error && (
+          <p className="text-red-600 text-sm mb-3" role="alert">
+            {error}
+          </p>
+        )}
         <div className="flex flex-wrap items-center gap-3">
           {amounts.map((amount) => (
-            <a
+            <button
               key={amount}
-              href={supportUrl}
-              className="inline-flex h-10 min-w-[3rem] items-center justify-center rounded-lg border-2 border-heritage-navy/25 text-heritage-navy px-4 font-semibold hover:bg-heritage-navy/5 hover:border-heritage-gold/50 transition-all duration-200"
+              type="button"
+              disabled={loadingAmount !== null}
+              onClick={async () => {
+                setError(null);
+                setLoadingAmount(amount);
+                try {
+                  const res = await fetch(`${apiUrl()}/api/stripe/create-checkout-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount }),
+                  });
+                  const data = await res.json().catch(() => ({}));
+                  if (!res.ok) {
+                    setError(data.message || 'Something went wrong.');
+                    return;
+                  }
+                  if (data.url) {
+                    window.location.href = data.url;
+                    return;
+                  }
+                  setError('No checkout URL received.');
+                } catch {
+                  setError('Network error. Please try again.');
+                } finally {
+                  setLoadingAmount(null);
+                }
+              }}
+              className="inline-flex h-10 min-w-[3rem] items-center justify-center rounded-lg border-2 border-heritage-navy/25 text-heritage-navy px-4 font-semibold hover:bg-heritage-navy/5 hover:border-heritage-gold/50 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              ${amount}
-            </a>
+              {loadingAmount === amount ? '…' : `$${amount}`}
+            </button>
           ))}
           <a
-            href={supportUrl}
+            href="/support"
             className="rounded-lg bg-heritage-navy px-4 py-2.5 text-white text-sm font-medium hover:bg-heritage-navy-light hover:shadow-glow-gold transition-all inline-flex items-center"
           >
             Support

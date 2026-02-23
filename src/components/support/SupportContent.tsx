@@ -1,8 +1,10 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 const encoded = (s: string) => encodeURIComponent(s);
+const apiUrl = () => process.env.NEXT_PUBLIC_API_URL ?? '';
 
 const donationAmounts = [5, 10, 15, 20] as const;
 
@@ -61,11 +63,46 @@ function OrnateFrame({ children }: { children: React.ReactNode }) {
 }
 
 export function SupportContent() {
+  const searchParams = useSearchParams();
   const [copied, setCopied] = useState(false);
-  const supportUrl = process.env.NEXT_PUBLIC_COFFEE_URL || '#';
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [paymentCanceled, setPaymentCanceled] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState<number | null>(null);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const url = typeof window !== 'undefined' ? window.location.href : '';
   const title = 'Victoriacross.ca – Remembering Waterman, Hickey & Vokes';
   const text = 'Historical context and petitions for the review of Victoria Cross cases. Add your voice.';
+
+  useEffect(() => {
+    if (searchParams.get('success') === '1') setPaymentSuccess(true);
+    if (searchParams.get('canceled') === '1') setPaymentCanceled(true);
+  }, [searchParams]);
+
+  const startCheckout = useCallback(async (amount: number) => {
+    setCheckoutError(null);
+    setCheckoutLoading(amount);
+    try {
+      const res = await fetch(`${apiUrl()}/api/stripe/create-checkout-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setCheckoutError(data.message || 'Something went wrong.');
+        return;
+      }
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      setCheckoutError('No checkout URL received.');
+    } catch {
+      setCheckoutError('Network error. Please try again.');
+    } finally {
+      setCheckoutLoading(null);
+    }
+  }, []);
 
   const copyLink = useCallback(() => {
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
@@ -85,32 +122,49 @@ export function SupportContent() {
         <p className="text-heritage-charcoal text-sm mb-6">
           Help preserve the legacy. Your contribution makes a difference.
         </p>
+        {paymentSuccess && (
+          <div className="rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 mb-4 text-sm">
+            Thank you! Your payment was successful.
+          </div>
+        )}
+        {paymentCanceled && (
+          <div className="rounded-lg bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 mb-4 text-sm">
+            Checkout was canceled. You can try again whenever you like.
+          </div>
+        )}
+        {checkoutError && (
+          <p className="text-red-600 text-sm mb-3" role="alert">
+            {checkoutError}
+          </p>
+        )}
         <div className="flex flex-col gap-10">
           <div className="flex flex-wrap items-center gap-3">
             {donationAmounts.map((amount, i) => (
-              <a
+              <button
                 key={`${amount}-${i}`}
-                href={supportUrl}
-                className="border border-heritage-navy/30 bg-heritage-stone/80 text-heritage-navy px-4 py-2.5 rounded font-medium hover:bg-heritage-navy/5 transition-colors"
+                type="button"
+                disabled={checkoutLoading !== null}
+                onClick={() => startCheckout(amount)}
+                className="border border-heritage-navy/30 bg-heritage-stone/80 text-heritage-navy px-4 py-2.5 rounded font-medium hover:bg-heritage-navy/5 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                ${amount}
-              </a>
+                {checkoutLoading === amount ? '…' : `$${amount}`}
+              </button>
             ))}
           </div>
-          <div
-            className="cursor-pointer inline-flex text-center items-center justify-center gap-2 bg-[#6b5344] text-white px-5 py-2.5 rounded font-medium hover:opacity-90 transition-opacity shadow-sm"
-            onClick={() => {
-              window.location.href = supportUrl;
-            }}
+          <button
+            type="button"
+            disabled={checkoutLoading !== null}
+            onClick={() => startCheckout(20)}
+            className="cursor-pointer inline-flex text-center items-center justify-center gap-2 bg-[#6b5344] text-white px-5 py-2.5 rounded font-medium hover:opacity-90 transition-opacity shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <div className="flex items-center gap-2">
               <LockIcon className="w-4 h-4" />
-              Contribute
+              {checkoutLoading !== null ? '…' : 'Contribute'}
             </div>
-          </div>
+          </button>
         </div>
         <p className="text-xs text-heritage-charcoal/70 mt-4">
-          Stripe integration preferred – to be configured in backend.
+          Secure payment via Stripe. One-time charge only.
         </p>
       </OrnateFrame>
 
