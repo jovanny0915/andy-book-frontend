@@ -9,8 +9,20 @@ type Props = {
   verificationUrl?: string;
 };
 
+/** Use current origin so the link works in prod even if backend sent localhost. */
+function normalizeVerificationUrl(url: string): string {
+  if (typeof window === 'undefined') return url;
+  try {
+    const parsed = new URL(url);
+    return `${window.location.origin}${parsed.pathname}${parsed.search}`;
+  } catch {
+    return url;
+  }
+}
+
 export function PetitionThankYou({ petitionId, petitionTitle, verificationUrl }: Props) {
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const displayVerificationUrl = verificationUrl ? normalizeVerificationUrl(verificationUrl) : undefined;
   const label = petitionTitle ?? (petitionId.startsWith('waterman') ? 'Waterman' : 'Hickey');
   const shareText = `I've signed the petition: ${label}. Add your voice: ${shareUrl}`;
 
@@ -25,10 +37,10 @@ export function PetitionThankYou({ petitionId, petitionTitle, verificationUrl }:
           <p className="text-heritage-charcoal mt-2 leading-relaxed">
             Please check your email and click the verification link. Your vote will be counted once verified.
           </p>
-          {verificationUrl && (
+          {displayVerificationUrl && (
             <p className="text-sm text-heritage-charcoal mt-3">
               If you didn&apos;t receive the email,{' '}
-              <a href={verificationUrl} className="text-heritage-navy underline font-medium">
+              <a href={displayVerificationUrl} className="text-heritage-navy underline font-medium">
                 click here to verify your vote
               </a>
               .
