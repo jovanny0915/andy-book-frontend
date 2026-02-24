@@ -6,11 +6,11 @@ import Link from 'next/link';
 import { ShareWidget } from '@/components/home/ShareWidget';
 import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
 
-const REDIRECT_DELAY_MS = 2000;
+const REDIRECT_DELAY_MS = 500;
 
 export default function VerifyPetitionPage() {
   const router = useRouter();
-  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const redirectTimeoutRef = useRef<number | undefined>();
   const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading');
   const [message, setMessage] = useState('');
 
@@ -34,7 +34,8 @@ export default function VerifyPetitionPage() {
           setStatus('ok');
           setMessage(data.message || 'Your signature is verified. Thank you.');
           redirectTimeoutRef.current = window.setTimeout(() => {
-            router.replace('/');
+            const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+            window.location.href = `${baseUrl}/`;
           }, REDIRECT_DELAY_MS);
         } else {
           setStatus('error');
