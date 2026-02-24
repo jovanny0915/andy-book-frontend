@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 type Props = {
@@ -81,6 +82,15 @@ export function PetitionForm({
         </p>
       )}
       <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="rounded-xl border border-heritage-gold/40 bg-heritage-gold/10 px-4 py-3">
+          <p className="text-sm text-heritage-charcoal leading-relaxed">
+            Before signing, please review our{' '}
+            <Link href="/disclosure" className="font-semibold text-heritage-navy underline underline-offset-2">
+              Website Terms, Disclaimer, and Disclosure
+            </Link>
+            . By submitting your vote, you agree to these terms.
+          </p>
+        </div>
         {/* Honeypot: hidden from users, bots fill it */}
         <div className="absolute -left-[9999px] opacity-0 pointer-events-none" aria-hidden>
           <label htmlFor={`website-${petitionId}`}>Website</label>
@@ -140,7 +150,12 @@ export function PetitionForm({
             className="mt-1 rounded border-heritage-charcoal/30 text-heritage-navy focus:ring-heritage-gold"
           />
           <label htmlFor={`consent-${petitionId}`} className="text-sm text-heritage-charcoal leading-relaxed">
-            I consent to my name and country being displayed with this petition and to receive one verification email. (GDPR compliant.)
+            I have read and agree to the{' '}
+            <Link href="/disclosure" className="font-semibold text-heritage-navy underline underline-offset-2">
+              Website Terms, Disclaimer, and Disclosure
+            </Link>
+            , and I consent to my name and country being displayed with this petition and to receive one verification
+            email.
           </label>
         </div>
         {error && (

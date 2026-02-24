@@ -1,6 +1,7 @@
 import { PetitionSection } from '@/components/PetitionSection';
 import { ShareWidget } from '@/components/home/ShareWidget';
 import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Vote & Petitions – Victoriacross.ca',
@@ -33,6 +34,15 @@ export default function PetitionsPage() {
         </header>
 
         <div className="max-w-6xl mx-auto px-4 pb-16 md:pb-20">
+          <div className="mb-6 rounded-xl border border-heritage-gold/40 bg-white/70 p-4 md:p-5">
+            <p className="text-sm md:text-base text-heritage-charcoal leading-relaxed">
+              Important: By signing a petition, you agree to our{' '}
+              <Link href="/disclosure" className="font-semibold text-heritage-navy underline underline-offset-2">
+                Website Terms, Disclaimer, and Disclosure
+              </Link>
+              .
+            </p>
+          </div>
           <PetitionSection />
         </div>
       </div>

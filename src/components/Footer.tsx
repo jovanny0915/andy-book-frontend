@@ -34,6 +34,9 @@ export function Footer() {
             <Link href="/terms" className="hover:text-heritage-gold transition-colors duration-200">
               Terms
             </Link>
+            <Link href="/disclosure" className="hover:text-heritage-gold transition-colors duration-200">
+              Disclosure
+            </Link>
             <a
               href={`mailto:${contactEmail}`}
               className="hover:text-heritage-gold transition-colors duration-200"
