@@ -22,8 +22,30 @@ export function HeroSection() {
         }}
         aria-hidden
       />
+      <div className="pointer-events-none absolute inset-0 hidden md:block" aria-hidden>
+        <div className="absolute left-2 lg:left-8 top-1/2 -translate-y-1/2">
+          <Image
+            src="/vc-medal.png"
+            alt=""
+            width={420}
+            height={620}
+            className="h-[46vh] lg:h-[62vh] w-auto object-contain drop-shadow-2xl"
+            priority
+          />
+        </div>
+        <div className="absolute right-2 lg:right-8 top-1/2 -translate-y-1/2">
+          <Image
+            src="/dcm-medal.png"
+            alt=""
+            width={360}
+            height={560}
+            className="h-[44vh] lg:h-[60vh] w-auto object-contain drop-shadow-2xl"
+            priority
+          />
+        </div>
+      </div>
       <div className="relative max-w-4xl mx-auto px-4 py-16 md:py-24 text-center">
-        <div className="flex justify-center items-end gap-6 md:gap-10 mb-6 md:mb-8 animate-fade-in">
+        <div className="flex justify-center items-end gap-6 md:gap-10 mb-6 md:mb-8 animate-fade-in md:hidden">
           <Image
             src="/vc-medal.png"
             alt="Victoria Cross"
