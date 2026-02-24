@@ -34,7 +34,10 @@ export default function VerifyPetitionPage() {
           setStatus('ok');
           setMessage(data.message || 'Your signature is verified. Thank you.');
           redirectTimeoutRef.current = window.setTimeout(() => {
-            const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+            const baseUrl =
+              typeof window !== 'undefined'
+                ? window.location.origin
+                : (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://victoriacross.ca');
             window.location.href = `${baseUrl}/`;
           }, REDIRECT_DELAY_MS);
         } else {
