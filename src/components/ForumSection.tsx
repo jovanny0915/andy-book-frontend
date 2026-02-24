@@ -322,9 +322,9 @@ export function ForumSection() {
                     <td className="py-3.5 px-4">
                       <div className="flex flex-wrap items-center gap-2">
                         <Link
-                          href={t.status === 'pending' ? '#' : `/forum/${t.id}`}
-                          className={`font-medium hover:underline ${t.status === 'pending' ? 'text-heritage-charcoal/70 cursor-default' : 'text-heritage-charcoal hover:text-heritage-navy'}`}
-                          onClick={t.status === 'pending' ? (e) => e.preventDefault() : undefined}
+                          href={t.status === 'approved' ? `/forum/${t.id}` : '#'}
+                          className={`font-medium hover:underline ${t.status !== 'approved' ? 'text-heritage-charcoal/70 cursor-default' : 'text-heritage-charcoal hover:text-heritage-navy'}`}
+                          onClick={t.status !== 'approved' ? (e) => e.preventDefault() : undefined}
                         >
                           {t.title}
                         </Link>
@@ -334,6 +334,11 @@ export function ForumSection() {
                         {t.status === 'pending' && (
                           <span className="rounded-full bg-amber-100 text-amber-800 px-2 py-0.5 text-xs font-medium">
                             Pending
+                          </span>
+                        )}
+                        {t.status === 'rejected' && (
+                          <span className="rounded-full bg-red-100 text-red-800 px-2 py-0.5 text-xs font-medium">
+                            Rejected
                           </span>
                         )}
                       </div>
