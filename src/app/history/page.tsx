@@ -44,7 +44,7 @@ export default function HistoryPage() {
           id="waterman"
           title="Colonel Ronald Waterman"
           subtitle="Leadership, valour, and the case for recognition."
-          image={{ src: '/hero-waterman.png', alt: 'Colonel Ronald Waterman' }}
+          image={{ src: '/hero-waterman.png?v=real', alt: 'Colonel Ronald Waterman' }}
           bio={{
             heading: 'Biography',
             content: (
@@ -93,7 +93,7 @@ export default function HistoryPage() {
           id="hickey"
           title="Corporal Alphonsus Hickey"
           subtitle="The Gothic Line, action, and recommendation history."
-          image={{ src: '/hero-hickey.png', alt: 'Corporal Alphonsus Hickey' }}
+          image={{ src: '/hero-hickey.png?v=real', alt: 'Corporal Alphonsus Hickey' }}
           bio={{
             heading: 'Biography',
             content: (
@@ -126,7 +126,7 @@ export default function HistoryPage() {
           id="wilmot"
           title="Padre Laurence Wilmot, MC"
           subtitle="The chaplain whose diary gives the book its name."
-          image={{ src: '/hero-vokes.png', alt: 'Padre Laurence Wilmot, MC' }}
+          image={{ src: '/hero-wilmot.png?v=real', alt: 'Padre Laurence Wilmot, MC' }}
           bio={{
             heading: 'Biography',
             content: (

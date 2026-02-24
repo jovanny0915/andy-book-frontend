@@ -22,7 +22,7 @@ function PetitionPortrait({
       alt={alt}
       fill
       className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-300"
-      sizes="(max-width: 640px) 100vw, 208px"
+      sizes="(max-width: 640px) 100vw, 288px"
       onError={() => {
         if (fallbackSrc && currentSrc !== fallbackSrc) setCurrentSrc(fallbackSrc);
       }}
@@ -44,7 +44,7 @@ const PETITION_LIST: Array<{
     shortTitle: 'VC',
     title: 'Petition for Waterman to receive the Victoria Cross',
     description: 'Support Ronald Waterman to be awarded the Victoria Cross.',
-    portraitSrc: '/waterman-portrait.png',
+    portraitSrc: '/waterman-portrait.png?v=real',
     portraitAlt: 'Ronald Waterman',
     signatureCountDecorative: true,
   },
@@ -53,7 +53,7 @@ const PETITION_LIST: Array<{
     shortTitle: 'DSO',
     title: 'Petition for Waterman to receive the DSO',
     description: 'Support Ronald Waterman to be awarded the Distinguished Service Order.',
-    portraitSrc: '/waterman-portrait.png',
+    portraitSrc: '/waterman-portrait.png?v=real',
     portraitAlt: 'Ronald Waterman',
     signatureCountDecorative: true,
   },
@@ -62,7 +62,7 @@ const PETITION_LIST: Array<{
     shortTitle: 'Hickey',
     title: 'Petition for Hickey to receive the Victoria Cross',
     description: 'Support Alphonsus Hickey to be awarded the Victoria Cross.',
-    portraitSrc: '/hero-hickey.png',
+    portraitSrc: '/hero-hickey.png?v=real',
     portraitAlt: 'Alphonsus Hickey',
     signatureCountDecorative: true,
   },
@@ -80,9 +80,9 @@ function displayCount(petitionId: string, apiCount: number | undefined): number 
 const SECTIONS = [
   {
     sectionTitle: 'Ronald Waterman',
-    portraitSrc: '/waterman-portrait.png',
+    portraitSrc: '/waterman-portrait.png?v=real',
     portraitAlt: 'Ronald Waterman',
-    fallbackPortrait: '/hero-waterman.png',
+    fallbackPortrait: '/hero-waterman.png?v=real',
     subsections: [
       PETITION_LIST.find((p) => p.id === 'waterman-vc')!,
       PETITION_LIST.find((p) => p.id === 'waterman-dso')!,
@@ -90,7 +90,7 @@ const SECTIONS = [
   },
   {
     sectionTitle: 'Alphonsus Hickey',
-    portraitSrc: '/hero-hickey.png',
+    portraitSrc: '/hero-hickey.png?v=real',
     portraitAlt: 'Alphonsus Hickey',
     fallbackPortrait: undefined,
     subsections: [PETITION_LIST.find((p) => p.id === 'hickey')!],
@@ -171,12 +171,12 @@ export function PetitionSection() {
               }}
               className={`group relative rounded-2xl overflow-hidden border-2 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 cursor-pointer ${
                 isSectionSelected
-                  ? 'border-heritage-gold bg-white shadow-lg shadow-heritage-gold/20'
-                  : 'border-heritage-charcoal/10 bg-white/95 hover:border-heritage-gold/30 hover:shadow-md'
+                  ? 'border-heritage-gold bg-heritage-gold/10 shadow-lg shadow-heritage-gold/25 ring-2 ring-heritage-gold/50 ring-inset'
+                  : 'border-heritage-charcoal/20 bg-white hover:border-heritage-gold/40 hover:shadow-md'
               }`}
             >
-              <div className="relative flex flex-col sm:flex-row min-h-[240px] md:min-h-[280px]">
-                <div className="relative w-full sm:w-44 md:w-52 flex-shrink-0 aspect-[4/3] sm:aspect-square">
+              <div className="relative flex flex-col sm:flex-row min-h-[280px] md:min-h-[320px]">
+                <div className="relative w-full sm:w-56 md:w-72 flex-shrink-0 aspect-[4/3] sm:aspect-square">
                   <PetitionPortrait
                     src={section.portraitSrc}
                     alt={section.portraitAlt}
@@ -190,10 +190,10 @@ export function PetitionSection() {
                   </h2>
                   <p className="text-base text-heritage-charcoal/70 mt-1">
                     {section.subsections.length > 1
-                      ? 'Select a petition to vote:'
+                      ? 'Click a petition to add your vote:'
                       : 'Petition to receive the Victoria Cross'}
                   </p>
-                  <div className="mt-3 flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
+                  <div className="mt-4 flex flex-wrap gap-3" onClick={(e) => e.stopPropagation()}>
                     {section.subsections.map((sub) => {
                       const isSelected = selectedId === sub.id;
                       const hasSigned = signedIds.has(sub.id);
@@ -205,22 +205,21 @@ export function PetitionSection() {
                             e.stopPropagation();
                             setSelectedId(isSelected ? null : sub.id);
                           }}
-                          className={`inline-flex items-center gap-2 rounded-xl border-2 px-3 py-2 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-1 ${
+                          className={`inline-flex items-center gap-2 rounded-lg border-2 px-4 py-2.5 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 ${
                             isSelected
-                              ? 'border-heritage-gold bg-heritage-gold/10 text-heritage-navy shadow-sm'
-                              : 'border-heritage-charcoal/15 bg-heritage-stone/50 text-heritage-charcoal hover:border-heritage-gold/40 hover:bg-heritage-gold/5'
+                              ? 'border-heritage-gold bg-heritage-gold text-heritage-navy shadow'
+                              : 'border-heritage-charcoal/25 bg-heritage-stone/30 text-heritage-charcoal hover:border-heritage-gold/70 hover:bg-heritage-gold/15'
                           }`}
                         >
-                          <span>{sub.shortTitle}</span>
-                          <span className="tabular-nums text-heritage-navy">
+                          <span>Vote — {sub.shortTitle}</span>
+                          <span className="tabular-nums text-heritage-charcoal/90">
                             {counts[sub.id] !== undefined ? displayCount(sub.id, counts[sub.id]) : '—'} votes
                             {sub.id === 'hickey' && (
-                              <span className="text-heritage-charcoal/70 font-normal"> (15k from a prior petition)</span>
+                              <span className="font-normal"> (15k from prior)</span>
                             )}
                           </span>
-                          {hasSigned && (
-                            <span className="text-emerald-600" aria-hidden>✓</span>
-                          )}
+                          {isSelected && <span className="text-heritage-navy font-bold" aria-hidden>✓</span>}
+                          {hasSigned && <span className="text-emerald-600" aria-hidden>✓</span>}
                         </button>
                       );
                     })}
@@ -232,17 +231,10 @@ export function PetitionSection() {
         })}
       </div>
 
-      {/* Form / thank-you panel */}
+      {/* Form / thank-you panel — only show when a petition is selected or after voting */}
+      {selectedPetition && (
       <div className="rounded-2xl border border-heritage-gold/25 bg-white/95 shadow-xl shadow-heritage-navy/5 overflow-hidden">
-        {!selectedPetition ? (
-          <div className="p-8 md:p-10 text-center">
-            <div className="inline-flex w-14 h-14 rounded-full bg-heritage-gold/10 items-center justify-center text-heritage-gold mb-4" aria-hidden>
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" /></svg>
-            </div>
-            <p className="font-medium text-heritage-navy">Select a petition above to add your vote</p>
-            <p className="text-sm text-heritage-charcoal/70 mt-1 max-w-sm mx-auto">One vote per email per petition. You can vote for both Waterman VC and Waterman DSO. Counted after you verify via email.</p>
-          </div>
-        ) : signedIds.has(selectedPetition.id) ? (
+        {signedIds.has(selectedPetition.id) ? (
           <div className="p-6 md:p-8">
             <PetitionThankYou
               petitionId={selectedPetition.id}
@@ -269,6 +261,7 @@ export function PetitionSection() {
           </div>
         )}
       </div>
+      )}
     </section>
   );
 }

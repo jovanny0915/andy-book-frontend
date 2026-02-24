@@ -7,21 +7,21 @@ const tiles = [
   {
     name: 'Colonel Ronald Waterman',
     slug: 'waterman',
-    image: '/hero-waterman.png',
+    image: '/hero-waterman.png?v=real',
     href: '/history#waterman',
     teaser: 'Leadership, valour, and the case for review.',
   },
   {
     name: 'Corporal Alphonsus Hickey',
     slug: 'hickey',
-    image: '/hero-hickey.png',
+    image: '/hero-hickey.png?v=real',
     href: '/history#hickey',
     teaser: 'Gallantry in the field and an unawarded VC.',
   },
   {
     name: 'Padre Laurence Wilmot MC',
     slug: 'wilmot',
-    image: '/hero-vokes.png', // placeholder until wilmot image exists
+    image: '/hero-wilmot.png?v=real',
     href: '/history#wilmot',
     teaser: 'The chaplain whose diary illuminates the story.',
   },

@@ -2,25 +2,12 @@
 
 import Link from 'next/link';
 
+/** Cache-bust so real portrait photos always load (not cached placeholders). */
+const IMG_V = '?v=real';
 const heroCards = [
-  {
-    name: 'Ronald Waterman',
-    src: '/hero-waterman.png',
-    cta: 'Review the case',
-    href: '/petitions',
-  },
-  {
-    name: 'Christopher Vokes',
-    src: '/hero-vokes.png',
-    cta: 'Learn more about his service',
-    href: '/history',
-  },
-  {
-    name: 'Alphonsus Hickey',
-    src: '/hero-hickey.png',
-    cta: 'Review the case',
-    href: '/petitions',
-  },
+  { name: 'Ronald Waterman', src: `/hero-waterman.png${IMG_V}`, cta: 'Review the case', href: '/petitions' },
+  { name: 'Christopher Vokes', src: `/hero-vokes.png${IMG_V}`, cta: 'Learn more about his service', href: '/history' },
+  { name: 'Alphonsus Hickey', src: `/hero-hickey.png${IMG_V}`, cta: 'Review the case', href: '/petitions' },
 ];
 
 export function HeroWithPortraits() {
@@ -53,7 +40,7 @@ export function HeroWithPortraits() {
               <div className="relative rounded-lg overflow-hidden shadow-xl border-2 border-heritage-gold/30 bg-heritage-navy-light/20 transition-all duration-300 group-hover:border-heritage-gold/60 group-hover:shadow-glow-gold group-hover:scale-[1.02]">
                 <img
                   src={card.src}
-                  alt={`${card.name} – Victoria Cross recipient`}
+                  alt={`${card.name} – Gothic Line Hero`}
                   className="w-full h-auto object-cover aspect-[3/4] object-top"
                 />
                 <span className="sr-only">{card.cta}</span>
