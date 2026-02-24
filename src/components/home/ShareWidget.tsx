@@ -4,6 +4,19 @@ import { useEffect, useState } from 'react';
 
 const apiUrl = () => process.env.NEXT_PUBLIC_API_URL ?? '';
 
+const STORAGE_KEY = 'victoriacross-share-widget-expanded';
+
+function getStoredExpanded(): boolean {
+  if (typeof window === 'undefined') return true;
+  const v = localStorage.getItem(STORAGE_KEY);
+  return v !== 'false';
+}
+
+function setStoredExpanded(expanded: boolean) {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(STORAGE_KEY, String(expanded));
+}
+
 const encoded = (s: string) => encodeURIComponent(s);
 
 type ShareWidgetProps = { floating?: boolean };
@@ -11,6 +24,15 @@ type ShareWidgetProps = { floating?: boolean };
 export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
   const [totalCount, setTotalCount] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(true);
+
+  useEffect(() => {
+    if (floating) setExpanded(getStoredExpanded());
+  }, [floating]);
+
+  const setExpandedPersisted = (value: boolean) => {
+    setExpanded(value);
+    if (floating) setStoredExpanded(value);
+  };
 
   /** Hickey count includes 15k from a prior petition. */
   const HICKEY_PRIOR = 15000;
@@ -47,7 +69,7 @@ export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
       <aside className="fixed bottom-6 right-6 z-20">
         <button
           type="button"
-          onClick={() => setExpanded(true)}
+          onClick={() => setExpandedPersisted(true)}
           className="rounded-xl border-2 border-heritage-gold/30 bg-white/95 px-4 py-3 shadow-lg shadow-heritage-navy/5 flex items-center gap-2 font-serif text-heritage-navy hover:bg-heritage-gold/5 hover:border-heritage-gold/50 transition-colors"
           aria-expanded="false"
           aria-label="Expand share panel"
@@ -77,7 +99,7 @@ export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
           {floating && (
             <button
               type="button"
-              onClick={() => setExpanded(false)}
+              onClick={() => setExpandedPersisted(false)}
               className="p-1.5 rounded-lg text-heritage-charcoal/70 hover:bg-heritage-gold/10 hover:text-heritage-navy transition-colors"
               aria-label="Collapse share panel"
               aria-expanded="true"

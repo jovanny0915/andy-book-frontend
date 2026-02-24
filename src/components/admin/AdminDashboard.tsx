@@ -15,6 +15,7 @@ type PendingThread = {
   title: string;
   body: string;
   author_email: string;
+  category?: string;
   created_at: string;
   status: string;
 };
@@ -349,7 +350,14 @@ export function AdminDashboard() {
                       key={t.id}
                       className="rounded-xl border border-heritage-navy/10 bg-heritage-stone/30 p-4"
                     >
-                      <p className="font-medium text-heritage-navy">{t.title}</p>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="font-medium text-heritage-navy">{t.title}</p>
+                        {t.category && (
+                          <span className="rounded-full bg-heritage-navy/10 text-heritage-navy px-2 py-0.5 text-xs font-medium capitalize">
+                            {t.category}
+                          </span>
+                        )}
+                      </div>
                       <p className="text-sm text-heritage-charcoal/80 mt-1 line-clamp-2">
                         {t.body}
                       </p>

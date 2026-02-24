@@ -41,13 +41,17 @@ export function ForumSection() {
     setToken(getForumToken());
   }, []);
 
+  // Fetch threads for the current category (server-side filter)
   useEffect(() => {
-    fetch(`${apiUrl()}/api/forum/threads`)
+    const want = (categoryParam || 'general').trim().toLowerCase();
+    const url = `${apiUrl()}/api/forum/threads${want ? `?category=${encodeURIComponent(want)}` : ''}`;
+    setLoading(true);
+    fetch(url)
       .then((r) => r.json())
       .then((data) => setThreads(data.threads || []))
       .catch(() => setThreads([]))
       .finally(() => setLoading(false));
-  }, []);
+  }, [categoryParam]);
 
   const onRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,7 +111,11 @@ export function ForumSection() {
         setPostError(data.message || 'Failed to post.');
         return;
       }
-      setThreads((prev) => [{ ...data, created_at: data.created_at, category: newCategory }, ...prev]);
+      const currentCat = (categoryParam || 'general').toLowerCase();
+      const newCat = String(newCategory).toLowerCase();
+      if (currentCat === newCat) {
+        setThreads((prev) => [{ ...data, created_at: data.created_at, category: newCategory }, ...prev]);
+      }
       setNewTitle('');
       setNewBody('');
       setShowNewThread(false);
@@ -144,11 +152,8 @@ export function ForumSection() {
 
   const categoryLabel = (cat?: string) => FORUM_CATEGORIES.find((c) => c.slug === cat || c.id === cat)?.label ?? 'General';
 
-  const filteredThreads = threads.filter((t) => {
-    const tCat = (t.category || 'general').toLowerCase();
-    const want = categoryParam.toLowerCase();
-    return want === 'general' ? !tCat || tCat === 'general' : tCat === want;
-  });
+  // Threads are already filtered by category from the API
+  const displayedThreads = threads;
 
   return (
     <section className="space-y-8 animate-fade-in">
@@ -300,14 +305,14 @@ export function ForumSection() {
                     Loading…
                   </td>
                 </tr>
-              ) : filteredThreads.length === 0 ? (
+              ) : displayedThreads.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="py-10 px-4 text-center text-heritage-charcoal/70">
                     No threads in this category yet. Be the first to post (after verifying your email).
                   </td>
                 </tr>
               ) : (
-                filteredThreads.map((t, i) => (
+                displayedThreads.map((t, i) => (
                   <tr
                     key={t.id}
                     className="border-b border-heritage-navy/5 hover:bg-heritage-stone/30 transition-colors"
