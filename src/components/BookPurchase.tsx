@@ -1,10 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const bookTitle = "The Chaplain's Diary";
-const subtitle = "The Chaplain VC Case";
 const description =
   "A compelling account of the Victoria Cross case, drawn from the chaplain's diary. This volume offers historical context and firsthand perspective on the events and individuals involved.";
 
@@ -13,7 +13,7 @@ const buyUrl = process.env.NEXT_PUBLIC_BOOK_URL || defaultAmazonUrl;
 const learnMoreUrl = '/history';
 const price = process.env.NEXT_PUBLIC_BOOK_PRICE || '24.99';
 
-const hasBookCover = false;
+const hasBookCover = true;
 
 const productDetails = [
   {
@@ -38,23 +38,29 @@ const productDetails = [
   },
 ];
 
+const bookCoverSrc = '/book-cover.jpg';
+
 export function BookPurchase() {
+  const [coverError, setCoverError] = useState(false);
+  const showCover = hasBookCover && !coverError;
+
   return (
     <div className="animate-fade-in">
       {/* Product card */}
       <div className="rounded-2xl border border-heritage-gold/20 bg-white/95 backdrop-blur-sm shadow-xl shadow-heritage-navy/5 overflow-hidden">
         <div className="flex flex-col lg:flex-row">
-          {/* Cover + main info */}
+          {/* Cover + main info — add book-cover.jpg to public to fill this spot */}
           <div className="flex flex-col sm:flex-row lg:flex-1 p-6 md:p-8 gap-6 md:gap-8">
             <div className="flex-shrink-0 w-full max-w-[260px] aspect-[3/4] mx-auto sm:mx-0 relative rounded-xl overflow-hidden border border-heritage-navy/10 bg-gradient-to-br from-heritage-parchment to-heritage-charcoal/5 shadow-inner-vintage">
-              {hasBookCover ? (
+              {showCover ? (
                 <Image
-                  src="/book-cover.jpg"
-                  alt={bookTitle}
+                  src={bookCoverSrc}
+                  alt={`${bookTitle} – cover`}
                   fill
                   className="object-cover"
                   sizes="260px"
                   priority
+                  onError={() => setCoverError(true)}
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center text-heritage-charcoal/40 p-4">
@@ -64,9 +70,6 @@ export function BookPurchase() {
               )}
             </div>
             <div className="flex-1 min-w-0 flex flex-col">
-              <p className="text-sm font-medium text-heritage-gold uppercase tracking-wider mb-1">
-                {subtitle}
-              </p>
               <h2 className="font-serif text-2xl md:text-3xl text-heritage-navy font-bold mb-3">
                 {bookTitle}
               </h2>

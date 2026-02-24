@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function HeroSection() {
   return (
@@ -22,6 +23,24 @@ export function HeroSection() {
         aria-hidden
       />
       <div className="relative max-w-4xl mx-auto px-4 py-16 md:py-24 text-center">
+        <div className="flex justify-center items-end gap-6 md:gap-10 mb-6 md:mb-8 animate-fade-in">
+          <Image
+            src="/vc-medal.png"
+            alt="Victoria Cross"
+            width={120}
+            height={160}
+            className="w-20 h-auto md:w-28 object-contain drop-shadow-md"
+            priority
+          />
+          <Image
+            src="/dcm-medal.png"
+            alt="Distinguished Conduct Medal"
+            width={100}
+            height={130}
+            className="w-16 h-auto md:w-24 object-contain drop-shadow-md"
+            priority
+          />
+        </div>
         <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight drop-shadow-sm animate-fade-in">
           The Chaplain&apos;s Diary
         </h1>
