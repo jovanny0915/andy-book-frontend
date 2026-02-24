@@ -6,7 +6,7 @@ import { BookPassage } from '@/content/bookPassage';
 
 export const metadata = {
   title: 'The Chaplain\'s Diary – Victoriacross.ca',
-  description: 'Purchase the book The Chaplain\'s Diary. Price, shipping, and order confirmation by email.',
+  description: 'Purchase the book The Chaplain\'s Diary. Price and order confirmation by email.',
 };
 
 export default function BookPage() {
@@ -50,7 +50,7 @@ export default function BookPage() {
           </div>
         </section>
 
-        {/* Product: Price, Shipping, Confirmation email */}
+        {/* Product: Price, Confirmation email */}
         <BookPurchase />
 
         {/* Reviews */}

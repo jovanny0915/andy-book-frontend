@@ -27,16 +27,6 @@ const productDetails = [
     ),
   },
   {
-    title: 'Shipping',
-    value: 'Ships in 3–5 business days',
-    description: 'Free shipping on orders over $35. Canada & US.',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-      </svg>
-    ),
-  },
-  {
     title: 'Confirmation email',
     value: 'Sent right after order',
     description: 'You’ll receive an order confirmation and tracking details by email.',
@@ -106,9 +96,9 @@ export function BookPurchase() {
           </div>
         </div>
 
-        {/* Price, Shipping, Confirmation email */}
+        {/* Price, Confirmation email */}
         <div className="border-t border-heritage-navy/10 bg-heritage-stone/50">
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-heritage-navy/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-heritage-navy/10">
             {productDetails.map((item) => (
               <div
                 key={item.title}
