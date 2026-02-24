@@ -1,11 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ShareWidget } from '@/components/home/ShareWidget';
 import { BuyMeACoffeeWidget } from '@/components/home/BuyMeACoffeeWidget';
 
+const REDIRECT_DELAY_MS = 2000;
+
 export default function VerifyPetitionPage() {
+  const router = useRouter();
+  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading');
   const [message, setMessage] = useState('');
 
@@ -28,6 +33,9 @@ export default function VerifyPetitionPage() {
         if (data.verified) {
           setStatus('ok');
           setMessage(data.message || 'Your signature is verified. Thank you.');
+          redirectTimeoutRef.current = window.setTimeout(() => {
+            router.replace('/');
+          }, REDIRECT_DELAY_MS);
         } else {
           setStatus('error');
           setMessage(data.message || 'Verification failed.');
@@ -37,7 +45,10 @@ export default function VerifyPetitionPage() {
         setStatus('error');
         setMessage('Something went wrong. Please try again.');
       });
-  }, []);
+    return () => {
+      if (redirectTimeoutRef.current) clearTimeout(redirectTimeoutRef.current);
+    };
+  }, [router]);
 
   return (
     <main className="min-h-screen flex flex-col bg-heritage-stone relative">
@@ -48,6 +59,7 @@ export default function VerifyPetitionPage() {
             <>
               <p className="text-heritage-navy font-medium text-lg">Email verified</p>
               <p className="text-heritage-charcoal mt-2">{message}</p>
+              <p className="text-heritage-charcoal/80 text-sm mt-4">Redirecting you to the home page…</p>
               <Link href="/" className="mt-6 inline-block text-heritage-navy hover:underline">
                 Back to home
               </Link>
