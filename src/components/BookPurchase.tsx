@@ -57,7 +57,7 @@ export function BookPurchase() {
                   src={bookCoverSrc}
                   alt={`${bookTitle} – cover`}
                   fill
-                  className="object-cover"
+                  className="object-contain object-top p-1"
                   sizes="260px"
                   priority
                   onError={() => setCoverError(true)}

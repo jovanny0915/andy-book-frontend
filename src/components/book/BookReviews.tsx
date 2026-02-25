@@ -55,7 +55,7 @@ export function BookReviews() {
                   alt=""
                   width={96}
                   height={96}
-                  className="object-cover w-full h-full"
+                  className="object-contain object-top w-full h-full p-1"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-heritage-charcoal/40 text-xs">
