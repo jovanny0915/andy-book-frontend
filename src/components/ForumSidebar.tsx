@@ -86,25 +86,26 @@ export function ForumSidebar() {
             <p className="text-xs text-heritage-charcoal/80 mb-4">
               Buy the book or coffee to help the cause
             </p>
-            <div className="flex flex-wrap justify-center gap-2 mb-4">
-              <a
-                href={supportUrl}
-                className="rounded-xl border-2 border-heritage-navy/30 text-heritage-navy px-4 py-2 text-sm font-medium hover:bg-heritage-navy/5 hover:border-heritage-gold/50 transition-all duration-200"
-              >
-                $5
-              </a>
-              <a
-                href={supportUrl}
-                className="rounded-xl bg-heritage-bronze/90 text-white px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
-              >
-                Buy Coffee
-              </a>
-              <a
-                href={supportUrl}
-                className="rounded-xl border-2 border-heritage-navy/30 text-heritage-navy px-4 py-2 text-sm font-medium hover:bg-heritage-navy/5 hover:border-heritage-gold/50 transition-all duration-200"
-              >
-                $20
-              </a>
+            <div className="mb-4 space-y-2">
+              <div className="flex justify-center">
+                <p className="inline-flex items-center rounded-full border border-heritage-gold/40 bg-gradient-to-r from-heritage-navy/5 to-heritage-gold/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-heritage-navy shadow-sm">
+                  Buy me coffee
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <a
+                  href={supportUrl}
+                  className="text-center rounded-xl bg-heritage-bronze/90 text-white px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
+                >
+                  $10
+                </a>
+                <a
+                  href={supportUrl}
+                  className="text-center rounded-xl border-2 border-heritage-navy/30 text-heritage-navy px-4 py-2 text-sm font-medium hover:bg-heritage-navy/5 hover:border-heritage-gold/50 transition-all duration-200"
+                >
+                  $20
+                </a>
+              </div>
             </div>
             <div className="space-y-3 text-left">
               <div>
