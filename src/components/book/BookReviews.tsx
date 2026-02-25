@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 const bookTitle = "The Chaplain's Diary";
-const hasBookCover = false;
+const hasBookCover = true;
 
 type Review = {
   title: string;
