@@ -24,7 +24,7 @@ export function PetitionThankYou({ petitionId, petitionTitle, verificationUrl }:
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
   const displayVerificationUrl = verificationUrl ? normalizeVerificationUrl(verificationUrl) : undefined;
   const label = petitionTitle ?? (petitionId.startsWith('waterman') ? 'Waterman' : 'Hickey');
-  const shareText = `I've signed the petition: ${label}. Add your voice: ${shareUrl}`;
+  const shareText = `I just signed the ${label} petition. Please add your voice and forward this to your contacts: ${shareUrl}`;
 
   return (
     <div className="rounded-2xl border border-heritage-gold/30 bg-gradient-to-br from-heritage-stone to-heritage-parchment/50 p-6 md:p-8">
@@ -50,6 +50,17 @@ export function PetitionThankYou({ petitionId, petitionTitle, verificationUrl }:
             One vote per email per petition. You can vote for the other petitions too (e.g. both Waterman VC and Waterman DSO).
           </p>
           <div className="mt-6 pt-6 border-t border-heritage-charcoal/10">
+            <div className="mb-5 rounded-xl border-2 border-heritage-gold bg-heritage-gold/10 p-4 md:p-5 shadow-sm">
+              <p className="text-lg font-semibold text-heritage-navy">You signed the petition.</p>
+              <p className="mt-1 text-lg font-semibold text-heritage-navy">Now please share it.</p>
+              <p className="mt-3 text-heritage-charcoal leading-relaxed">
+                Hickey and Waterman cannot speak for themselves. You can.
+              </p>
+              <p className="text-heritage-charcoal leading-relaxed">
+                If you believe their courage deserves recognition, help make their story impossible to ignore.
+              </p>
+              <p className="mt-3 font-semibold text-heritage-bronze">Tap share.</p>
+            </div>
             <ShareButtons url={shareUrl} title="Petition signed" text={shareText} />
           </div>
         </div>

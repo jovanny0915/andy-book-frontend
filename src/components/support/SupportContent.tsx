@@ -69,6 +69,7 @@ export function SupportContent() {
   const [paymentCanceled, setPaymentCanceled] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState<number | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [discountCode, setDiscountCode] = useState('');
   const url = typeof window !== 'undefined' ? window.location.href : '';
   const title = 'Victoriacross.ca – Remembering Waterman, Hickey & Vokes';
   const text = 'Historical context and petitions for the review of Victoria Cross cases. Add your voice.';
@@ -85,7 +86,10 @@ export function SupportContent() {
       const res = await fetch(`${apiUrl()}/api/stripe/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({
+          amount,
+          discountCode: discountCode.trim(),
+        }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
@@ -102,7 +106,7 @@ export function SupportContent() {
     } finally {
       setCheckoutLoading(null);
     }
-  }, []);
+  }, [discountCode]);
 
   const copyLink = useCallback(() => {
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
@@ -137,6 +141,22 @@ export function SupportContent() {
             {checkoutError}
           </p>
         )}
+        <div className="mb-5">
+          <label htmlFor="discount-code" className="block text-sm font-medium text-heritage-charcoal mb-1">
+            Discount code (optional)
+          </label>
+          <input
+            id="discount-code"
+            type="text"
+            value={discountCode}
+            onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
+            placeholder="Enter code for 20% off"
+            className="w-full max-w-xs rounded border border-heritage-navy/30 bg-white px-3 py-2 text-sm text-heritage-charcoal focus:outline-none focus:ring-2 focus:ring-heritage-gold/40"
+          />
+          <p className="text-xs text-heritage-charcoal/70 mt-1">
+            Valid code applies 20% off your selected amount.
+          </p>
+        </div>
         <div className="flex flex-col gap-10">
           <div className="flex flex-wrap items-center gap-3">
             {donationAmounts.map((amount, i) => (

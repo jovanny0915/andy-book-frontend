@@ -43,8 +43,23 @@ type AdminUser = {
   created_at: string;
 };
 
+type SalesSummary = {
+  currency: string;
+  totals: {
+    overall_cents: number;
+    with_code_cents: number;
+    without_code_cents: number;
+    discounts_given_cents: number;
+  };
+  counts: {
+    overall: number;
+    with_code: number;
+    without_code: number;
+  };
+};
+
 export function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'posts' | 'users' | 'admins'>('posts');
+  const [activeTab, setActiveTab] = useState<'posts' | 'users' | 'admins' | 'sales'>('posts');
   const [threads, setThreads] = useState<PendingThread[]>([]);
   const [replies, setReplies] = useState<PendingReply[]>([]);
   const [postsLoading, setPostsLoading] = useState(true);
@@ -63,6 +78,9 @@ export function AdminDashboard() {
   const [adminsError, setAdminsError] = useState('');
   const [newAdminEmail, setNewAdminEmail] = useState('');
   const [addAdminLoading, setAddAdminLoading] = useState(false);
+  const [salesSummary, setSalesSummary] = useState<SalesSummary | null>(null);
+  const [salesLoading, setSalesLoading] = useState(false);
+  const [salesError, setSalesError] = useState('');
 
   const token = getAccessToken();
 
@@ -132,6 +150,26 @@ export function AdminDashboard() {
   useEffect(() => {
     if (activeTab === 'admins') fetchAdmins();
   }, [activeTab, fetchAdmins]);
+
+  const fetchSalesSummary = useCallback(() => {
+    if (!token) return;
+    setSalesLoading(true);
+    setSalesError('');
+    fetch(`${apiUrl()}/api/admin/sales/summary`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((r) => {
+        if (!r.ok) throw new Error('Failed to load sales summary.');
+        return r.json();
+      })
+      .then((data) => setSalesSummary(data))
+      .catch(() => setSalesError('Failed to load sales summary.'))
+      .finally(() => setSalesLoading(false));
+  }, [token]);
+
+  useEffect(() => {
+    if (activeTab === 'sales') fetchSalesSummary();
+  }, [activeTab, fetchSalesSummary]);
 
   const addAdmin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -268,6 +306,8 @@ export function AdminDashboard() {
     'rounded-xl bg-green-700 text-white px-4 py-2 text-sm font-medium hover:bg-green-800 disabled:opacity-50 transition-colors';
   const btnDanger =
     'rounded-xl bg-red-600 text-white px-4 py-2 text-sm font-medium hover:bg-red-700 disabled:opacity-50 transition-colors';
+  const formatCents = (cents: number, currency = 'usd') =>
+    new Intl.NumberFormat('en-US', { style: 'currency', currency }).format((cents || 0) / 100);
 
   return (
     <div className="space-y-6">
@@ -305,6 +345,17 @@ export function AdminDashboard() {
           }`}
         >
           Admin users
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('sales')}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            activeTab === 'sales'
+              ? 'bg-heritage-navy text-white'
+              : 'bg-heritage-stone/50 text-heritage-charcoal hover:bg-heritage-stone'
+          }`}
+        >
+          Sales
         </button>
       </div>
 
@@ -619,6 +670,50 @@ export function AdminDashboard() {
                   </li>
                 ))}
               </ul>
+            )}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'sales' && (
+        <div className={card}>
+          <div className={`${cardHead} flex flex-wrap items-center justify-between gap-3`}>
+            <div>
+              <h3 className="font-semibold text-heritage-navy">Sales summary</h3>
+              <p className="text-xs text-heritage-charcoal/70 mt-0.5">
+                Stripe payment totals, including a separate total for discount-code purchases.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={fetchSalesSummary}
+              disabled={salesLoading}
+              className="rounded-lg bg-heritage-gold/20 text-heritage-navy px-3 py-1.5 text-sm font-medium hover:bg-heritage-gold/30 disabled:opacity-50"
+            >
+              Refresh
+            </button>
+          </div>
+          <div className="p-5 space-y-3">
+            {salesError && <p className="text-sm text-red-600">{salesError}</p>}
+            {salesLoading && <p className="text-sm text-heritage-charcoal/70">Loading…</p>}
+            {!salesLoading && !salesError && salesSummary && (
+              <>
+                <p className="text-sm text-heritage-charcoal">
+                  Total sales: <strong>{formatCents(salesSummary.totals.overall_cents, salesSummary.currency)}</strong>{' '}
+                  ({salesSummary.counts.overall} payments)
+                </p>
+                <p className="text-sm text-heritage-charcoal">
+                  Sales with code: <strong>{formatCents(salesSummary.totals.with_code_cents, salesSummary.currency)}</strong>{' '}
+                  ({salesSummary.counts.with_code} payments)
+                </p>
+                <p className="text-sm text-heritage-charcoal">
+                  Sales without code: <strong>{formatCents(salesSummary.totals.without_code_cents, salesSummary.currency)}</strong>{' '}
+                  ({salesSummary.counts.without_code} payments)
+                </p>
+                <p className="text-sm text-heritage-charcoal">
+                  Total discounts given: <strong>{formatCents(salesSummary.totals.discounts_given_cents, salesSummary.currency)}</strong>
+                </p>
+              </>
             )}
           </div>
         </div>

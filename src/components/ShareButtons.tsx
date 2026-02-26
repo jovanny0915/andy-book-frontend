@@ -15,18 +15,26 @@ export function ShareButtons({ url, title, text }: Props) {
     }
   };
 
+  const emailBody = text.includes(url) ? text : `${text}\n\n${url}`;
+  const emailHref = `mailto:?subject=${encoded(title)}&body=${encoded(emailBody)}`;
+
   const links = [
     { name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encoded(url)}` },
     { name: 'X', href: `https://twitter.com/intent/tweet?url=${encoded(url)}&text=${encoded(text)}` },
     { name: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encoded(url)}` },
     { name: 'WhatsApp', href: `https://wa.me/?text=${encoded(text + ' ' + url)}` },
-    { name: 'Email', href: `mailto:?subject=${encoded(title)}&body=${encoded(text)}` },
   ];
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <span className="text-sm font-medium text-heritage-charcoal/80">Share:</span>
+    <div className="space-y-3">
+      <a
+        href={emailHref}
+        className="inline-flex items-center justify-center rounded-lg bg-heritage-navy px-4 py-2.5 text-sm font-semibold text-white hover:bg-heritage-navy-light transition-colors"
+      >
+        Share by email to your contacts
+      </a>
       <div className="flex flex-wrap items-center gap-2">
+        <span className="text-sm font-medium text-heritage-charcoal/80">Or share on social:</span>
         {links.map((link) => (
           <a
             key={link.name}
