@@ -103,7 +103,7 @@ export function BuyMeACoffeeWidget({ floating = false }: BuyMeACoffeeWidgetProps
                   const res = await fetch(`${apiUrl()}/api/stripe/create-checkout-session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount }),
+                    body: JSON.stringify({ paymentType: 'support', amount }),
                   });
                   const data = await res.json().catch(() => ({}));
                   if (!res.ok) {

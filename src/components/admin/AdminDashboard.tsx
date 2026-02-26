@@ -56,6 +56,26 @@ type SalesSummary = {
     with_code: number;
     without_code: number;
   };
+  by_type?: {
+    support: {
+      overall_cents: number;
+      with_code_cents: number;
+      without_code_cents: number;
+      discounts_given_cents: number;
+      overall: number;
+      with_code: number;
+      without_code: number;
+    };
+    book: {
+      overall_cents: number;
+      with_code_cents: number;
+      without_code_cents: number;
+      discounts_given_cents: number;
+      overall: number;
+      with_code: number;
+      without_code: number;
+    };
+  };
 };
 
 export function AdminDashboard() {
@@ -713,6 +733,27 @@ export function AdminDashboard() {
                 <p className="text-sm text-heritage-charcoal">
                   Total discounts given: <strong>{formatCents(salesSummary.totals.discounts_given_cents, salesSummary.currency)}</strong>
                 </p>
+                {salesSummary.by_type && (
+                  <>
+                    <div className="h-px bg-heritage-navy/10 my-2" />
+                    <p className="text-sm text-heritage-charcoal">
+                      Book sales total: <strong>{formatCents(salesSummary.by_type.book.overall_cents, salesSummary.currency)}</strong>{' '}
+                      ({salesSummary.by_type.book.overall} payments)
+                    </p>
+                    <p className="text-sm text-heritage-charcoal">
+                      Book sales with code: <strong>{formatCents(salesSummary.by_type.book.with_code_cents, salesSummary.currency)}</strong>{' '}
+                      ({salesSummary.by_type.book.with_code} payments)
+                    </p>
+                    <p className="text-sm text-heritage-charcoal">
+                      Support sales total: <strong>{formatCents(salesSummary.by_type.support.overall_cents, salesSummary.currency)}</strong>{' '}
+                      ({salesSummary.by_type.support.overall} payments)
+                    </p>
+                    <p className="text-sm text-heritage-charcoal">
+                      Support sales with code: <strong>{formatCents(salesSummary.by_type.support.with_code_cents, salesSummary.currency)}</strong>{' '}
+                      ({salesSummary.by_type.support.with_code} payments)
+                    </p>
+                  </>
+                )}
               </>
             )}
           </div>

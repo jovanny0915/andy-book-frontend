@@ -11,21 +11,6 @@ type Review = {
   reviewerName?: string;
 };
 
-const fallbackReviews: Review[] = [
-  {
-    title: "Review of The Chaplain's Diary",
-    rating: 5,
-    quote: 'A moving and meticulously researched account. Essential reading for anyone interested in the Victoria Cross and the individuals behind the citations.',
-    reviewerName: 'Verified Reader',
-  },
-  {
-    title: 'Powerful historical narrative',
-    rating: 5,
-    quote: "The chaplain's perspective brings a unique depth to the story. Highly recommended for history enthusiasts and those who want to understand the human side of these events.",
-    reviewerName: 'History Enthusiast',
-  },
-];
-
 const hasBookCover = true;
 
 const initialForm = {
@@ -53,7 +38,7 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export function BookReviews() {
-  const [reviews, setReviews] = useState<Review[]>(fallbackReviews);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isLoadingReviews, setIsLoadingReviews] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -70,11 +55,11 @@ export function BookReviews() {
         const res = await fetch(`${apiUrl}/api/reviews`);
         const json = await res.json().catch(() => ({}));
         if (!mounted) return;
-        if (res.ok && Array.isArray(json.reviews) && json.reviews.length > 0) {
+        if (res.ok && Array.isArray(json.reviews)) {
           setReviews(json.reviews);
         }
       } catch {
-        // Keep fallback reviews if API is unavailable.
+        // Keep current reviews if API is unavailable.
       } finally {
         if (mounted) setIsLoadingReviews(false);
       }
