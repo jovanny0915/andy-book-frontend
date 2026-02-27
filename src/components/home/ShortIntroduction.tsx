@@ -1,14 +1,17 @@
-import { BookPassage } from '@/content/bookPassage';
-
 export function ShortIntroduction() {
   return (
     <section className="max-w-3xl mx-auto px-4 py-12 md:py-16 space-y-6">
-      <div className="rounded-2xl border border-heritage-gold/25 bg-white/90 shadow-lg shadow-heritage-navy/5 p-8 md:p-10">
+      <div className="rounded-2xl border border-heritage-gold/25 bg-white/90 shadow-xl shadow-heritage-navy/10 p-8 md:p-10 backdrop-blur-sm">
         <h2 className="font-serif text-2xl md:text-3xl text-heritage-navy border-b border-heritage-gold/40 pb-3 mb-6">
           About the Book
         </h2>
-        <div className="prose prose-lg text-heritage-charcoal leading-relaxed space-y-4">
-          <BookPassage />
+        <div className="space-y-5">
+          <p className="text-base md:text-lg text-heritage-charcoal leading-relaxed">
+            <em>The Chaplain&apos;s Diary</em> is a deeply researched account of courage, memory, and military decision-making.
+            It follows the campaign through Sicily, Ortona, and the Gothic Line, then examines how medal recommendations
+            were assessed, reduced, or set aside. The result is a concise, evidence-led narrative that challenges long-held
+            assumptions about Canada&apos;s most extraordinary wartime acts.
+          </p>
         </div>
       </div>
       <div className="rounded-2xl border border-heritage-gold/25 bg-white/90 shadow-lg shadow-heritage-navy/5 p-8 md:p-10">

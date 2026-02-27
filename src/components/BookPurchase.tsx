@@ -190,7 +190,7 @@ export function BookPurchase() {
       <div className="rounded-2xl border border-heritage-gold/20 bg-white/95 backdrop-blur-sm shadow-xl shadow-heritage-navy/5 overflow-hidden">
         <div className="flex flex-col lg:flex-row">
           {/* Cover + main info — add book-cover.jpg to public to fill this spot */}
-          <div className="flex flex-col sm:flex-row sm:items-start lg:flex-1 p-6 md:p-8 gap-6 md:gap-8">
+          <div className="flex flex-col sm:flex-row sm:items-start lg:flex-1 p-4 sm:p-6 md:p-8 gap-4 sm:gap-6 md:gap-8">
             <div className="flex-shrink-0 self-start w-full max-w-[250px] mx-auto sm:mx-0 rounded-2xl border border-heritage-gold/30 bg-white p-2 shadow-xl shadow-heritage-navy/10 ring-1 ring-heritage-gold/10">
               <div className="relative aspect-[2/3] rounded-xl overflow-hidden border border-heritage-navy/10 bg-heritage-stone/30">
               {showCover ? (
@@ -212,22 +212,40 @@ export function BookPurchase() {
               </div>
             </div>
             <div className="flex-1 min-w-0 flex flex-col">
-              <h2 className="font-serif text-2xl md:text-3xl text-heritage-navy font-bold mb-3">
+              <h2 className="font-serif text-2xl md:text-3xl text-heritage-navy font-bold mb-2 md:mb-3">
                 {bookTitle}
               </h2>
-              <p className="text-heritage-charcoal/90 leading-relaxed mb-6 flex-1">
+              <p className="text-heritage-charcoal/90 leading-relaxed mb-4 md:mb-6 flex-1">
                 {description}
               </p>
-              <div className="mt-2 border-y border-heritage-gold/30 py-6 md:py-8">
-                <div className="max-w-3xl mx-auto rounded-2xl border border-heritage-navy/10 bg-gradient-to-b from-white via-white to-heritage-stone/40 shadow-lg shadow-heritage-navy/5 px-5 md:px-8 py-6 md:py-8">
+              <div className="md:hidden mb-4 rounded-xl border border-heritage-gold/35 bg-heritage-stone/30 px-4 py-3.5">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-heritage-navy/80 mb-2">
+                  Quick Purchase
+                </p>
+                <button
+                  type="button"
+                  onClick={openCheckoutModal}
+                  className="w-full inline-flex items-center justify-center gap-2 bg-heritage-navy text-white px-5 py-3.5 rounded-xl font-semibold hover:bg-heritage-navy-dark transition-all duration-200 shadow-lg shadow-heritage-navy/20 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  Buy Now
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+              </div>
+              <div className="mt-1 md:mt-2 border-y border-heritage-gold/30 py-4 md:py-8">
+                <div className="max-w-3xl mx-auto rounded-2xl border border-heritage-navy/10 bg-gradient-to-b from-white via-white to-heritage-stone/40 shadow-lg shadow-heritage-navy/5 px-4 md:px-8 py-4 md:py-8">
                   <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.2em] text-heritage-gold mb-3">
                     Featured Excerpt
                   </p>
-                  <h3 className="font-serif text-2xl md:text-3xl text-heritage-navy font-bold mb-5 leading-tight">
+                  <h3 className="font-serif text-2xl md:text-3xl text-heritage-navy font-bold mb-4 md:mb-5 leading-tight">
                     Read an Excerpt from The Chaplain’s Diary
                   </h3>
                   <div className="h-px bg-gradient-to-r from-heritage-gold/50 via-heritage-navy/20 to-transparent mb-5" />
-                  <div className="max-h-[420px] overflow-y-auto pr-2 md:pr-3 space-y-4 text-heritage-charcoal/90 leading-8 text-[1rem] md:text-[1.04rem]">
+                  <div className="relative rounded-2xl border border-heritage-navy/10 bg-white/80 shadow-inner shadow-heritage-navy/5">
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-8 rounded-t-2xl bg-gradient-to-b from-white via-white/85 to-transparent z-10" />
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 rounded-b-2xl bg-gradient-to-t from-white via-white/85 to-transparent z-10" />
+                    <div className="max-h-[360px] overflow-y-auto px-4 md:px-5 py-5 md:py-6 pr-3 md:pr-4 space-y-4 text-heritage-charcoal/90 leading-8 text-[1rem] md:text-[1.04rem] scroll-smooth [scrollbar-width:thin] [scrollbar-color:rgba(11,35,66,0.35)_transparent]">
                     {featuredExcerpt.map((line, index) => (
                       <p
                         key={`${line}-${index}`}
@@ -236,31 +254,17 @@ export function BookPurchase() {
                         {line}
                       </p>
                     ))}
+                    </div>
                   </div>
                   <div className="h-px bg-gradient-to-r from-transparent via-heritage-navy/20 to-heritage-gold/50 mt-6 mb-5" />
-                  <p className="font-semibold text-heritage-navy text-base md:text-lg">
-                    <strong>Continue reading the full story inside The Chaplain’s Diary.</strong>
+                  <p className="font-semibold text-heritage-navy text-base md:text-lg mb-4">
+                    <strong>Read the full account and decide for yourself.</strong>
                   </p>
-                  {paymentSuccess && (
-                    <div className="rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 text-sm">
-                      Thank you! Your book purchase was successful.
-                    </div>
-                  )}
-                  {paymentCanceled && (
-                    <div className="rounded-lg bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 text-sm">
-                      Checkout was canceled. You can try again any time.
-                    </div>
-                  )}
-                  {checkoutError && (
-                    <p className="text-red-600 text-sm" role="alert">
-                      {checkoutError}
-                    </p>
-                  )}
-                  <div className="mt-4 flex flex-col sm:flex-row gap-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <button
                       type="button"
                       onClick={openCheckoutModal}
-                      className="inline-flex items-center justify-center gap-2 bg-heritage-navy text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-heritage-navy-dark transition-all duration-200 shadow-lg shadow-heritage-navy/20 hover:shadow-heritage-gold/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-heritage-navy text-white px-6 py-3.5 rounded-xl font-semibold hover:bg-heritage-navy-dark transition-all duration-200 shadow-lg shadow-heritage-navy/20 hover:shadow-heritage-gold/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       Buy Now
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -269,19 +273,34 @@ export function BookPurchase() {
                     </button>
                     <Link
                       href={learnMoreUrl}
-                      className="inline-flex items-center justify-center gap-2 bg-white text-heritage-navy border-2 border-heritage-navy/30 px-6 py-3.5 rounded-xl font-semibold hover:bg-heritage-navy/5 hover:border-heritage-gold/50 transition-all duration-200"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-heritage-navy border-2 border-heritage-navy/30 px-6 py-3.5 rounded-xl font-semibold hover:bg-heritage-navy/5 hover:border-heritage-gold/50 transition-all duration-200"
                     >
                       Learn More
                     </Link>
-                    {/* <a
-                      href={amazonUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 bg-heritage-stone/70 text-heritage-charcoal border border-heritage-navy/20 px-6 py-3.5 rounded-xl font-semibold hover:bg-heritage-stone transition-all duration-200"
-                    >
-                      Buy on Amazon
-                    </a> */}
                   </div>
+                  {paymentSuccess && (
+                    <div className="mt-4 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 text-sm">
+                      Thank you! Your book purchase was successful.
+                    </div>
+                  )}
+                  {paymentCanceled && (
+                    <div className="mt-4 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 text-sm">
+                      Checkout was canceled. You can try again any time.
+                    </div>
+                  )}
+                  {checkoutError && (
+                    <p className="mt-4 text-red-600 text-sm" role="alert">
+                      {checkoutError}
+                    </p>
+                  )}
+                  {/* <a
+                    href={amazonUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-heritage-stone/70 text-heritage-charcoal border border-heritage-navy/20 px-6 py-3.5 rounded-xl font-semibold hover:bg-heritage-stone transition-all duration-200"
+                  >
+                    Buy on Amazon
+                  </a> */}
                 </div>
               </div>
             </div>

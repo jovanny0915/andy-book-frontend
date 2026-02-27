@@ -100,7 +100,20 @@ export function HeroSection() {
         <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight drop-shadow-sm animate-fade-in">
           The Chaplain&apos;s Diary
         </h1>
-        <h2 className="mt-3 font-serif text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-heritage-stone/95 max-w-3xl mx-auto animate-fade-in">
+        <p className="mt-2 text-lg md:text-xl text-heritage-stone/95 max-w-2xl mx-auto font-medium animate-fade-in">
+          The definitive historical account behind the Hickey and Waterman Victoria Cross petitions.
+        </p>
+        <div className="mt-6 flex justify-center animate-fade-in">
+          <Image
+            src="/book-cover.jpg"
+            alt="The Chaplain's Diary – book cover"
+            width={280}
+            height={420}
+            className="h-[36vh] min-h-[180px] max-h-[280px] w-auto object-contain drop-shadow-2xl rounded-sm"
+            priority
+          />
+        </div>
+        <h2 className="mt-6 font-serif text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-heritage-stone/95 max-w-3xl mx-auto animate-fade-in">
           The Untold Story Behind Canada&apos;s Unawarded Victoria Cross
         </h2>
         <p className="mt-5 text-lg md:text-xl lg:text-2xl text-heritage-stone/95 max-w-2xl mx-auto leading-relaxed animate-fade-in">
@@ -139,13 +152,13 @@ export function HeroSection() {
         <div className="mt-10 flex flex-col items-center gap-3 animate-fade-in">
           <Link
             href="/book"
-            className="inline-flex items-center justify-center rounded-lg bg-heritage-gold text-heritage-navy px-8 py-4 text-lg font-semibold shadow-lg hover:bg-heritage-bronze hover:shadow-glow-gold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 focus-visible:ring-offset-heritage-navy"
+            className="inline-flex items-center justify-center rounded-lg bg-heritage-gold text-heritage-navy px-8 py-4 text-lg font-bold shadow-lg hover:bg-heritage-bronze hover:shadow-glow-gold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 focus-visible:ring-offset-heritage-navy"
           >
             Buy the Book
           </Link>
           <Link
             href="/petitions"
-            className="inline-flex items-center justify-center rounded-lg border border-heritage-gold/60 text-heritage-stone px-6 py-2.5 text-sm md:text-base font-medium hover:bg-heritage-gold/10 hover:text-heritage-gold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 focus-visible:ring-offset-heritage-navy"
+            className="inline-flex items-center justify-center rounded-lg border border-heritage-gold/50 text-heritage-stone/90 px-5 py-2 text-sm font-normal hover:bg-heritage-gold/10 hover:text-heritage-gold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 focus-visible:ring-offset-heritage-navy"
           >
             Vote and Sign Petition
           </Link>

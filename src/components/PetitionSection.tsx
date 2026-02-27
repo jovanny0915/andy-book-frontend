@@ -152,6 +152,18 @@ export function PetitionSection() {
         </div>
       )}
 
+      <div className="relative overflow-hidden rounded-2xl border border-heritage-gold/30 bg-gradient-to-r from-white via-heritage-stone/20 to-heritage-gold/10 px-6 py-5 md:px-8">
+        <div className="pointer-events-none absolute -top-8 -right-8 h-28 w-28 rounded-full bg-heritage-gold/15 blur-2xl" />
+        <div className="relative flex flex-col gap-3">
+          <p className="text-base md:text-lg text-heritage-charcoal/90 leading-relaxed">
+            This petition calls for a formal review of Corporal Hickey and Colonel Waterman&apos;s actions for the Victoria Cross.
+          </p>
+          <div className="inline-flex w-fit items-center rounded-full border border-heritage-gold/50 bg-heritage-gold/20 px-4 py-1.5 text-sm font-semibold tracking-wide text-heritage-navy">
+            Target: 10,000 signatures for formal submission.
+          </div>
+        </div>
+      </div>
+
       {/* Section cards: Waterman (VC + DSO subsections) and Hickey — section is clickable, defaults to first subsection */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {SECTIONS.map((section) => {
