@@ -31,6 +31,9 @@ export default function PetitionsPage() {
           <h1 className="font-serif text-2xl md:text-3xl text-heritage-navy tracking-tight">
             Vote & Petitions
           </h1>
+          <p className="mt-3 text-sm md:text-base text-heritage-navy/90 italic">
+            The full historical account behind this petition is documented in The Chaplain’s Diary.
+          </p>
         </header>
 
         <div className="max-w-6xl mx-auto px-4 pb-16 md:pb-20">

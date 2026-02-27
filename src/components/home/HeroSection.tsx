@@ -2,8 +2,42 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
 
 export function HeroSection() {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  async function handleSignup(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!email) return;
+    setIsSubmitting(true);
+    setFeedback(null);
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? '';
+      const res = await fetch(`${apiUrl}/api/newsletter/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setFeedback({ type: 'error', message: json.message || 'Unable to sign up right now. Please try again.' });
+        return;
+      }
+
+      setFeedback({ type: 'success', message: 'You are subscribed for book updates.' });
+      setEmail('');
+    } catch {
+      setFeedback({ type: 'error', message: 'Unable to sign up right now. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <section className="relative bg-heritage-navy text-white overflow-hidden min-h-[70vh] flex flex-col justify-center">
       {/* Subtle radial gradient and pattern */}
@@ -72,18 +106,48 @@ export function HeroSection() {
         <p className="mt-5 text-lg md:text-xl lg:text-2xl text-heritage-stone/95 max-w-2xl mx-auto leading-relaxed animate-fade-in">
           This book documents the actions of Waterman and Hickey at the Gothic Line in 1944 and examines why Canada&apos;s Victoria Cross remains unawarded.
         </p>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4 animate-fade-in">
-          <Link
-            href="/petitions"
-            className="inline-flex items-center justify-center rounded-lg bg-heritage-gold text-heritage-navy px-8 py-4 text-lg font-semibold shadow-lg hover:bg-heritage-bronze hover:shadow-glow-gold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 focus-visible:ring-offset-heritage-navy"
-          >
-            Vote and Sign Petition
-          </Link>
+        <div className="mt-6 max-w-xl mx-auto animate-fade-in">
+          <form onSubmit={handleSignup} className="flex flex-col sm:flex-row gap-3">
+            <label htmlFor="home-email-signup" className="sr-only">
+              Email Address
+            </label>
+            <input
+              id="home-email-signup"
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              placeholder="Email Address"
+              className="w-full rounded-lg px-4 py-3 text-base bg-white/95 text-heritage-charcoal placeholder:text-heritage-charcoal/60 border border-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold"
+            />
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="inline-flex items-center justify-center rounded-lg bg-heritage-gold text-heritage-navy px-6 py-3 text-base font-semibold shadow-lg hover:bg-heritage-bronze transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 focus-visible:ring-offset-heritage-navy disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? 'Submitting...' : 'Get Book Updates'}
+            </button>
+          </form>
+          {feedback && (
+            <p className={`mt-2 text-sm ${feedback.type === 'success' ? 'text-emerald-200' : 'text-red-200'}`}>
+              {feedback.message}
+            </p>
+          )}
+        </div>
+        <div className="mt-10 flex flex-col items-center gap-3 animate-fade-in">
           <Link
             href="/book"
-            className="inline-flex items-center justify-center rounded-lg border-2 border-heritage-gold/70 text-heritage-gold px-8 py-4 text-lg font-semibold hover:bg-heritage-gold/10 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 focus-visible:ring-offset-heritage-navy"
+            className="inline-flex items-center justify-center rounded-lg bg-heritage-gold text-heritage-navy px-8 py-4 text-lg font-semibold shadow-lg hover:bg-heritage-bronze hover:shadow-glow-gold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 focus-visible:ring-offset-heritage-navy"
           >
             Buy the Book
+          </Link>
+          <Link
+            href="/petitions"
+            className="inline-flex items-center justify-center rounded-lg border border-heritage-gold/60 text-heritage-stone px-6 py-2.5 text-sm md:text-base font-medium hover:bg-heritage-gold/10 hover:text-heritage-gold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-heritage-gold focus-visible:ring-offset-2 focus-visible:ring-offset-heritage-navy"
+          >
+            Vote and Sign Petition
           </Link>
         </div>
       </div>

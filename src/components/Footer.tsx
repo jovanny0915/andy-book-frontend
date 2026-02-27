@@ -3,6 +3,7 @@ import Link from 'next/link';
 const menuLinks = [
   { href: '/', label: 'Home' },
   { href: '/history', label: 'History' },
+  { href: '/media', label: 'Media' },
   { href: '/petitions', label: 'Petitions' },
   { href: '/forum', label: 'Forum' },
   { href: '/book', label: 'Book' },
@@ -27,6 +28,24 @@ export function Footer() {
               </Link>
             ))}
           </nav>
+          <div className="flex items-center gap-2">
+            <label htmlFor="footer-email" className="sr-only">
+              Email
+            </label>
+            <input
+              id="footer-email"
+              name="email"
+              type="email"
+              placeholder="Email"
+              className="w-44 sm:w-52 rounded-md border border-heritage-stone/30 bg-heritage-navy-light/30 px-3 py-2 text-sm text-heritage-stone placeholder:text-heritage-stone/60 focus:outline-none focus:ring-2 focus:ring-heritage-gold/70"
+            />
+            <button
+              type="button"
+              className="rounded-md bg-heritage-gold px-3 py-2 text-sm font-semibold text-heritage-navy transition-colors duration-200 hover:bg-heritage-gold/90"
+            >
+              Subscribe
+            </button>
+          </div>
           <div className="flex flex-wrap items-center gap-6 text-sm">
             <Link href="/privacy" className="hover:text-heritage-gold transition-colors duration-200">
               Privacy Policy
