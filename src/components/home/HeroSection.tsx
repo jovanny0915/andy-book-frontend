@@ -66,8 +66,11 @@ export function HeroSection() {
         <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight drop-shadow-sm animate-fade-in">
           The Chaplain&apos;s Diary
         </h1>
+        <h2 className="mt-3 font-serif text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-heritage-stone/95 max-w-3xl mx-auto animate-fade-in">
+          The Untold Story Behind Canada&apos;s Unawarded Victoria Cross
+        </h2>
         <p className="mt-5 text-lg md:text-xl lg:text-2xl text-heritage-stone/95 max-w-2xl mx-auto leading-relaxed animate-fade-in">
-          A historical investigation into courage, command, and Canada&apos;s unawarded Victoria Cross.
+          This book documents the actions of Waterman and Hickey at the Gothic Line in 1944 and examines why Canada&apos;s Victoria Cross remains unawarded.
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4 animate-fade-in">
           <Link
