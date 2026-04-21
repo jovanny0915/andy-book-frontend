@@ -24,6 +24,12 @@ type ShareWidgetProps = { floating?: boolean };
 export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
   const [totalCount, setTotalCount] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(true);
+  /** Set after mount so SSR and the first client render match (avoids hydration mismatch on share hrefs). */
+  const [pageUrl, setPageUrl] = useState('');
+
+  useEffect(() => {
+    setPageUrl(window.location.href);
+  }, []);
 
   useEffect(() => {
     if (floating) setExpanded(getStoredExpanded());
@@ -45,21 +51,20 @@ export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
       .catch(() => {});
   }, []);
 
-  const url = typeof window !== 'undefined' ? window.location.href : '';
   const title = 'Victoriacross.ca – Remembering Waterman, Hickey & Vokes';
   const text = 'Historical context and petitions for the review of Victoria Cross cases. Add your voice.';
 
   const copyLink = () => {
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
-      navigator.clipboard.writeText(url);
+      navigator.clipboard.writeText(pageUrl);
     }
   };
 
   const shareLinks = [
-    { name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encoded(url)}`, label: 'f' },
-    { name: 'X', href: `https://twitter.com/intent/tweet?url=${encoded(url)}&text=${encoded(text)}`, label: 'X' },
-    { name: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encoded(url)}`, label: 'in' },
-    { name: 'Email', href: `mailto:?subject=${encoded(title)}&body=${encoded(text + ' ' + url)}`, label: '✉' },
+    { name: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encoded(pageUrl)}`, label: 'f' },
+    { name: 'X', href: `https://twitter.com/intent/tweet?url=${encoded(pageUrl)}&text=${encoded(text)}`, label: 'X' },
+    { name: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${encoded(pageUrl)}`, label: 'in' },
+    { name: 'Email', href: `mailto:?subject=${encoded(title)}&body=${encoded(text + ' ' + pageUrl)}`, label: '✉' },
   ];
 
   const headerLabel = floating ? 'Share This Page!' : 'Share this page';
@@ -132,7 +137,7 @@ export function ShareWidget({ floating = false }: ShareWidgetProps = {}) {
             <input
               type="text"
               readOnly
-              value={url}
+              value={pageUrl}
               className="flex-1 rounded border border-heritage-navy/20 px-3 py-2 text-sm text-heritage-charcoal/80 bg-heritage-stone/50"
             />
             <button

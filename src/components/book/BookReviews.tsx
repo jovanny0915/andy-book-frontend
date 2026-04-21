@@ -77,12 +77,22 @@ export function BookReviews() {
     setIsSubmitting(true);
 
     try {
+      if (!apiUrl) {
+        setError('API address is not configured. Set NEXT_PUBLIC_API_URL for this site.');
+        return;
+      }
+
+      const reviewerName = form.reviewerName.trim();
+      const title = form.title.trim();
+      const quote = form.quote.trim();
+      const rating = Math.min(5, Math.max(1, Math.round(Number(form.rating))));
+
       const payload = {
-        reviewerName: form.reviewerName,
-        title: form.title,
-        rating: form.rating,
-        quote: form.quote,
-        consent: form.consent,
+        reviewerName,
+        title,
+        rating,
+        quote,
+        consent: form.consent === true,
       };
 
       const res = await fetch(`${apiUrl}/api/reviews`, {
@@ -90,7 +100,7 @@ export function BookReviews() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      const json = await res.json().catch(() => ({}));
+      const json = (await res.json().catch(() => ({}))) as { message?: string };
 
       if (!res.ok) {
         setError(json.message || 'Could not submit your review. Please try again.');
@@ -99,10 +109,10 @@ export function BookReviews() {
 
       setReviews((prev) => [
         {
-          title: form.title.trim(),
-          quote: form.quote.trim(),
-          rating: form.rating,
-          reviewerName: form.reviewerName.trim(),
+          title,
+          quote,
+          rating,
+          reviewerName,
         },
         ...prev,
       ]);
